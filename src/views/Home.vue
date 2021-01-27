@@ -156,7 +156,7 @@ export default {
       'searchProducts',
       'getVoucher'
     ]),
-    deleteProduct(item) {
+    deleteProduct(item) 
       axios
         .delete(`http://localhost:3000/product/${item.product_id}`)
         .then(response => {
