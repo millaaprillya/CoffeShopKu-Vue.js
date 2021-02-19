@@ -42,10 +42,10 @@ export default {
         axios
           .post('http://localhost:3000/user/register', payload)
           .then(response => {
-            resolve(response.data)
+            resolve(response.data.msg)
           })
           .catch(error => {
-            reject(error.response.data.message)
+            reject(error.response.data.msg)
           })
       })
     },

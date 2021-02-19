@@ -1,28 +1,66 @@
 <template>
   <div class="voucher">
-    <div class="coupon">
-      <div class="containerr">
-        <h3>VOUCHER</h3>
+    <aside>
+      <p class="aside-text">
+        Cupon will be updated every weeks. <br />
+        Check them out!
+      </p>
+      <div class="aside-card">
+        <div class="card-item row">
+          <div class="card-image col-3">
+            <img src="assets/img/aside-icon.png" />
+          </div>
+          <div class="card-text col-9">
+            <strong>HAPPY MOTHER'S DAY!</strong>
+            <p>Get one of our favourite menu for free!</p>
+          </div>
+        </div>
       </div>
-      <img
-        src="https://media0.giphy.com/media/3o7TKBTR9Lu1qqCGg8/giphy.gif"
-        alt="Avatar"
-        style="width:100%;"
-      />
-      <div class="container" style="background-color:white">
-        <h2><b>20% OFF YOUR PURCHASE</b></h2>
-        <p>
-          Lorem ipsum dolor sit amet, et nam pertinax gloriatur. Sea te minim
-          soleat senserit, ex quo luptatum tacimates voluptatum, salutandi
-          delicatissimi eam ea. In sed nullam laboramus appellantur, mei ei
-          omnis dolorem mnesarchum.
-        </p>
+      <div class="aside-card" style="background-color: #f5c361">
+        <div class="card-item row">
+          <div class="card-image col-3">
+            <img src="assets/img/aside-icon2.png" />
+          </div>
+          <div class="card-text col-9">
+            <strong>HAPPY MOTHER'S DAY!</strong>
+            <p>Get one of our favourite menu for free!</p>
+          </div>
+        </div>
       </div>
-      <div class="container">
-        <p>Use Promo Code: <span class="promo">BOH232</span></p>
-        <p class="expire">Expires: Jan 03, 2021</p>
+      <div class="aside-card">
+        <div class="card-item row">
+          <div class="card-image col-3">
+            <img src="../../assets/voucher/voucher1.png" />
+          </div>
+          <div class="card-text col-9">
+            <strong>HAPPY MOTHER'S DAY!</strong>
+            <p>Get one of our favourite menu for free!</p>
+          </div>
+        </div>
       </div>
-    </div>
+      <div class="aside-card" style="background-color: #c49378">
+        <div class="card-item row">
+          <div class="card-image col-3">
+            <img src="assets/img/aside-icon3.png" />
+          </div>
+          <div class="card-text col-9">
+            <strong>HAPPY MOTHER'S DAY!</strong>
+            <p>Get one of our favourite menu for free!</p>
+          </div>
+        </div>
+      </div>
+      <div class="aside-btn">Apply Coupon</div>
+      <div class="aside-terms">
+        <ul>
+          <li><strong>Terms and Condition</strong></li>
+          <li>1. You can only apply 1 coupon per day</li>
+          <li>2. it only for dine in</li>
+          <li>3. Buy 1 get 1 only for new user</li>
+          <li>4. Should make member card to apply coupon</li>
+        </ul>
+        <p></p>
+      </div>
+    </aside>
   </div>
 </template>
 

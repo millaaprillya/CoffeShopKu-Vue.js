@@ -22,14 +22,10 @@ export default {
         axios
           .get(`http://localhost:3000/voucher=${context.state.voucher}`)
           .then(response => {
-            // console.log(response)
             context.commit('setVoucher', response.data)
             resolve(response)
-            //   state.totalRows = response.data.pagination.totalData
-            //   state.product = response.data.data
           })
           .catch(error => {
-            // console.log(error.response)
             reject(error)
           })
       })

@@ -45,7 +45,7 @@
   </b-container>
 </template>
 
-<style>
+<style scoped>
 .info-1 {
   margin: 100px;
   text-align: left;

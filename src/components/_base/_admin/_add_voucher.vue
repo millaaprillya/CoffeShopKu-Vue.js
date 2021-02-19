@@ -71,8 +71,8 @@
                 >
                   Save Voucher
                 </button>
-              </form></b-container
-            >
+              </form>
+            </b-container>
           </b-col>
         </b-row>
       </b-container>
@@ -243,6 +243,7 @@ export default {
 .card-contact {
   margin-top: 5%;
   background: white;
+  margin-bottom: 5%;
 }
 .button-set-profile {
   margin-left: 8%;
@@ -300,7 +301,7 @@ export default {
 }
 .take-picture,
 .colum-user-1 {
-  margin-top: 5%;
+  margin-right: 20%;
 }
 
 .take-picture {

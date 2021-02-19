@@ -4,8 +4,8 @@ import Home from '../views/Home.vue'
 import Product from '../views/Product.vue'
 
 import aboutProduct from '../views/About.vue'
-import productAsc from '../components/_base/_dashboard/product_asc.vue'
-import productDesc from '../components/_base/_dashboard/product_desc.vue'
+import payment from '../components/_base/_user/payment.vue'
+import history from '../components/_base/_user/history.vue'
 import userHome from '../views/user.vue'
 import orderDetail from '../views/detailOrder.vue'
 import addVoucher from '../views/admin/add_voucher.vue'
@@ -13,7 +13,7 @@ import login from '../views/auth/login.vue'
 import register from '../views/auth/register.vue'
 import user from '../views/auth/user.vue'
 import dashboard from '../views/dasboard/dashboard.vue'
-import payment from '../views/admin/payment'
+// import payment from '../views/admin/payment'
 import addProduct from '../components/_base/_admin/Addproduct.vue'
 import store from '../store/index'
 
@@ -25,7 +25,7 @@ const routes = [
     component: dashboard
   },
   {
-    path: '/',
+    path: '/Home',
     name: 'Home',
     component: Home,
     meta: { requiresAuth: true }
@@ -33,42 +33,49 @@ const routes = [
   {
     path: '/product',
     name: 'Product',
-    component: Product
-  },
-  {
-    path: '/productAsc',
-    name: 'productAsc',
-    component: productAsc
-  },
-  {
-    path: '/productDesc',
-    name: 'productDesc',
-    component: productDesc
+    component: Product,
+    meta: { requiresAuth: true }
   },
   {
     path: '/aboutProduct/:id',
     name: 'aboutProduct',
-    component: aboutProduct
+    component: aboutProduct,
+    meta: { requiresAuth: true }
   },
   {
     path: '/payment/:id',
     name: 'payment',
-    component: payment
+    component: payment,
+    meta: { requiresAuth: true }
   },
   {
     path: '/addVoucher/',
     name: 'addVoucher',
-    component: addVoucher
+    component: addVoucher,
+    meta: { requiresAuth: true }
   },
   {
-    path: '/userHome/',
+    path: '/',
     name: 'userHome',
-    component: userHome
+    component: userHome,
+    meta: { requiresAuth: true }
   },
   {
-    path: '/orderDetail/',
+    path: '/orderDetail/:id',
     name: 'orderDetail',
     component: orderDetail,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/payment/',
+    name: 'payment',
+    component: payment,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/history/',
+    name: 'history',
+    component: history,
     meta: { requiresAuth: true }
   },
   {

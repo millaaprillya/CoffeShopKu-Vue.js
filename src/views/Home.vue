@@ -9,10 +9,7 @@
               <b-card-group class="border-class">
                 <center>
                   <ul>
-                    <center class="info-promo">Voucher For You</center>
-                    <center class="info-promo-1">
-                      Coupons will be updated every weeks. Check them out!
-                    </center>
+                    <center class="info-promo">Add Voucher</center>
                     <Voucher />
                   </ul>
                 </center>
@@ -22,12 +19,19 @@
           <b-col xl="8" lg="8" md="12" sm="12">
             <b-container class="bg-home">
               <div>
-                <ul class="header-menu">
-                  <li @click="categoryFood()">favorite Product</li>
-                  <li @click="categoryFood(1)">coffee</li>
-                  <li @click="categoryFood(2)">Non Coffee</li>
-                  <li @click="categoryFood(3)">Foods</li>
-                  <li>Add On</li>
+                <ul class="header-menu ">
+                  <li class="nav-item" @click="categoryFood()">
+                    <a> favorite Product</a>
+                  </li>
+                  <li class="nav-item" @click="categoryFood('Coffee')">
+                    <a>coffee</a>
+                  </li>
+                  <li class="nav-item" @click="categoryFood('Non Coffee')">
+                    <a>Non Coffee</a>
+                  </li>
+                  <li class="nav-item" @click="categoryFood('Foods')">
+                    <a>Foods</a>
+                  </li>
                   <li>
                     <b-dropdown
                       id="dropdown-dropright"
@@ -50,16 +54,6 @@
                     </b-dropdown>
                   </li>
                 </ul>
-                <form class="form-inline" xl="2" lg="12" md="12" sm="12">
-                  <router-link to="/">
-                    <input
-                      type="text"
-                      placeholder=" Search"
-                      aria-label="Search"
-                      @keydown.enter.prevent="searchProduct"
-                    />
-                  </router-link>
-                </form>
               </div>
               <b-container class="bv-example-row">
                 <Card />
@@ -97,13 +91,11 @@
 // [1] step pertama import komponen
 import Navbar from '../components/_base/Navbar'
 import Footer from '../components/_base/Footer'
-import Voucher from '../components/_base/_user/Voucher-user'
+import Voucher from '../components/_base/_admin/voucher'
 import Card from '../components/_base/_admin/_card'
 import Addproduct from '../components/_base/_admin/Addproduct'
 import axios from 'axios'
-
 import { mapGetters, mapActions, mapMutations } from 'vuex'
-
 export default {
   name: 'Product',
   // [2] step 2 mendaftarkan komponen yang sudah kita import
@@ -148,7 +140,7 @@ export default {
     // this.getProducts()
   },
   methods: {
-    ...mapActions(['getProducts']),
+    ...mapActions(['getProducts', 'getProductsCategory']),
     ...mapMutations([
       'changePage',
       'changeSort',
@@ -156,7 +148,7 @@ export default {
       'searchProducts',
       'getVoucher'
     ]),
-    deleteProduct(item) 
+    deleteProduct(item) {
       axios
         .delete(`http://localhost:3000/product/${item.product_id}`)
         .then(response => {
@@ -189,12 +181,12 @@ export default {
     },
     categoryFood(category) {
       this.changeCategory(category)
+      this.getProductsCategory()
     },
     handleSort(sort) {
       this.changeSort(sort)
       this.getProducts()
     },
-
     addProductform() {
       this.$router.push({
         name: 'addProduct'
@@ -209,6 +201,8 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
 .centered {
   text-align: center;
 }
@@ -226,8 +220,7 @@ export default {
   border-radius: 150px;
 }
 .card-title {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-weight: bold;
   text-align: center;
   color: #000000;
@@ -261,18 +254,14 @@ export default {
 .info-promo {
   margin: 3%;
   margin-left: 10%;
-
   font-family: 'Source Serif Pro', serif;
-
   padding-bottom: 4%;
   color: #6a4029;
   font-family: Rubik;
-
   font-weight: bold;
   font-size: 25px;
   line-height: 30px;
   /* identical to box height */
-
   color: #6a4029;
 }
 .info-promo-1 {
@@ -283,7 +272,6 @@ export default {
   font-size: 20px;
   line-height: 18px;
   text-align: center;
-
   color: #000000;
 }
 .voucher-container {
@@ -305,15 +293,16 @@ export default {
   font-size: 20px;
   line-height: 30px;
   /* identical to box height, or 120% */
-
   text-align: center;
-
   color: #6a4029;
 }
 .pagination {
   margin-top: 5%;
 }
-@media only screen and (max-width: 1094px) {
+@media only screen and (max-width: 1590px) {
+  .border-class {
+    display: none;
+  }
   .voucher-container {
     display: none;
   }
@@ -332,11 +321,8 @@ export default {
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
-
     /* identical to box height, or 120% */
-
     text-align: center;
-
     color: #6a4029;
   }
   .edit-data {

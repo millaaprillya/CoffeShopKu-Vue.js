@@ -2,65 +2,60 @@ import axios from 'axios'
 
 export default {
   state: {
-    limit: 8,
-    page: 1,
-    products: [],
-    totalRows: null,
-    product_id: '',
-    search: '',
-    sort: '',
-    category: ''
+    orders: [],
+    form: {
+      order_id: '',
+      history_id: '',
+      product_id: '',
+      product_price: '',
+      order_qty: '',
+      order_price: '',
+      order_total: ''
+    }
   },
   mutations: {
-    setProduct(state, payload) {
-      state.products = payload.data
+    setPayment(state, payload) {
+      state.orders = payload.data
       state.totalRows = payload.pagination.totalData
-    },
-    changePage(state, payload) {
-      state.page = payload
-    },
-    changeSort(state, payload) {
-      state.sort = payload
     },
     searchProducts(state, payload) {
       state.search = payload
-    },
-    changeCategory(state, payload) {
-      state.category = payload
-      state.products = payload.data
-      state.totalRows = payload.pagination.totalData
     }
   },
   // ${process.env.VUE_APP_PORT}
   actions: {
-    getProducts(context) {
+    getHistory(context, payload) {
       console.log(context.state)
       return new Promise((resolve, reject) => {
-        axios
-          .get(
-            ` ${process.env.VUE_APP_PORT}/product?page=${context.state.page}&limit=${context.state.limit}&search=${context.state.search}&sort=${context.state.sort}`
-          )
+        axios.get(`http://localhost:3000/order/`, payload)
+        console
+          .log(payload)
           .then(response => {
-            context.commit('setProduct', response.data)
+            context.commit('setPayment', response.data)
             resolve(response)
           })
           .catch(error => {
+            console.log(error.response)
             reject(error)
           })
       })
     },
-    getProductsCategory(context) {
+    getProductsBycategory(context) {
       console.log(context.state)
       return new Promise((resolve, reject) => {
         axios
           .get(
-            ` http://localhost:3000/category?page=${context.state.page}&limit=${context.state.limit}&search=${context.state.search}&sort=${context.state.sort}`
+            `${process.env.VUE_APP_PORT}/product?page=${context.state.page}&limit=${context.state.limit}&search=${context.state.search}&sort=${context.state.sort}`
           )
           .then(response => {
-            context.commit('changeSort', response.data)
+            // console.log(response)
+            context.commit('setProduct', response.data)
             resolve(response)
+            //   state.totalRows = response.data.pagination.totalData
+            //   state.product = response.data.data
           })
           .catch(error => {
+            console.log(error.response)
             reject(error)
           })
       })
@@ -126,9 +121,6 @@ export default {
     },
     getProduct(state) {
       return state.products
-    },
-    getCategoryNameProduct(state) {
-      return state.category
     }
   }
 }

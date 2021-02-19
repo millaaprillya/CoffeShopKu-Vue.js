@@ -104,6 +104,7 @@ export default {
     onSubmit() {
       this.register(this.form)
         .then(result => {
+          // this.makeToast('Congratulations', `${result.data.data.user_name}`)
           console.log(result)
           this.$router.push('/login')
         })

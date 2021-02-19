@@ -1,46 +1,108 @@
 <template>
-  <b-container fluid class="bv-example-row">
-    <b-col lg="12" class="navbar-top">... </b-col>
-    <b-row class="nav-admin">
-      <b-col xl="2" lg="4" md="12" sm="12" class="CoffeShop">
-        <img src="../../assets/logo.png" alt="" /> CoffeShopKu</b-col
-      >
-      <b-col xl="6" lg="4" md="12" sm="12">
-        <ul class="header-menu">
-          <li sm="12"><router-link to="/">Home</router-link></li>
-          <li sm="12"><router-link to="/product">Product</router-link></li>
-          <li sm="12">Cart</li>
-          <li sm="12">History</li>
-        </ul></b-col
-      >
-      <b-col xl="2" lg="4" md="12" sm="12" class="sc"> </b-col>
-      <b-col xl="2" lg="12" md="12" sm="12" class="user">
-        <b-container class="bv-example-row">
-          <b-row>
-            <b-col>
-              <img src="../../assets/property/chat (1) 1.png" alt=""
-            /></b-col>
-            <b-col>
-              <img
-                mr="5"
+  <div>
+    <nav class="navbar pt-3 pb-4 navbar-expand-lg">
+      <div class="container ">
+        <a class="navbar-brand navbar-logo" href="#"
+          ><img src="../../assets/logo.png" alt="" />
+          <span class="navbar__title pl-lg-2 position-relative"
+            >Coffee Shop</span
+          >
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto ml-lg-auto pt-lg-2">
+            <li class="nav-item">
+              <router-link class="pr-lg-4 nav-link" to="/dashboard"
+                >Home</router-link
+              >
+            </li>
+            <li class="nav-item">
+              <router-link class="pr-lg-4 nav-link" to="/">Product</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="pr-lg-4 nav-link" to="/payment"
+                >Your Cart</router-link
+              >
+            </li>
+            <li class="nav-item active">
+              <router-link class="nav-link" to="/history">History</router-link>
+            </li>
+          </ul>
+          <div
+            class="d-flex justify-content-around mt-2 align-self-lg-center mb-2 mb-lg-0 pt-lg-1"
+          >
+            <form class="form-inline" mr="5" xl="2" lg="12" md="12" sm="12">
+              <router-link to="/">
+                <input
+                  type="text"
+                  placeholder=" Search"
+                  aria-label="Search"
+                  @keydown.enter.prevent="searchProduct"
+                />
+              </router-link>
+            </form>
+            <a
+              href="#"
+              class="position-relative mr-lg-4"
+              mr="5"
+              xl="2"
+              lg="12"
+              md="12"
+              sm="12"
+              ><img
+                class="chat__Logo"
+                alt="chatLogo"
+                src="../../assets/property/chat.png"
+            /></a>
+            <a
+              ><img
+                class="costumer__Logo"
+                alt="costumerLogo"
                 src="../../assets/nav/user.png"
-                alt=""
-                class="rounded-circle"
-            /></b-col>
-            <b-col>
-              <img
+            /></a>
+            <a
+              ><img
+                class="costumer__Logo"
+                alt="costumerLogo"
                 src="../../assets/property/logout.png"
-                alt=""
-                @click="handleLogout"
-            /></b-col>
-          </b-row>
-        </b-container>
-      </b-col>
-    </b-row>
-  </b-container>
+            /></a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
 </template>
 
 <style>
+.nav-item,
+.nav-link {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 19px;
+
+  color: #0b132a;
+}
+.navbar__title {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 24px;
+  /* identical to box height */
+
+  color: #0b132a;
+}
+.navbar {
+  margin: 2%;
+  border-bottom: 3px solid #f7f7f7;
+}
+.costumer__Logo,
+.chat__Logo,
+.form-inline {
+  margin-right: 50%;
+}
 .navbar-top {
   background: url('../../assets/nav/Capture.png');
 }

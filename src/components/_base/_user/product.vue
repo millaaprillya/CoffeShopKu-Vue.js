@@ -2,7 +2,6 @@
   <b-row class="mr-card">
     <b-container class="bv-example-row">
       <b-row>
-        <h4>Low Price For you</h4>
         <div
           xl="3"
           lg="4"
@@ -30,13 +29,11 @@
             <b-container class="bv-example-row mb-3">
               <b-row cols="2">
                 <b-col>
-                  <button class="button button5" @click="productAbout(item)">
-                    <img src="../../../assets/property/Vector.png" alt="" />
-                  </button>
-                </b-col>
-                <b-col>
-                  <button class="button button5" @click="deleteProduct(item)">
-                    D
+                  <button
+                    class="option__delivCatagory"
+                    @click="productAbout(item)"
+                  >
+                    <p>ADD CART</p>
                   </button>
                 </b-col>
               </b-row>
@@ -49,12 +46,15 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: 'Product ASC',
+  name: 'Product',
 
   computed: {
+    // rows() {
+    //   return this.totalRows
+    // },
     ...mapGetters({
       products: 'getDataProduct'
     })
@@ -80,19 +80,13 @@ export default {
     this.getProducts()
   },
   methods: {
-    ...mapActions(['getProductsAsc']),
+    ...mapActions(['getProducts', 'postProduct', 'productDeleted']),
     deleteProduct(item) {
-      axios
-        .delete(`http://localhost:3000/product/${item.product_id}`)
-        .then(response => {
-          console.log(response)
-          this.alert = true
-          this.isMsg = response.data.msg
-          this.getProduct()
-        })
-        .catch(error => {
-          console.log(error.response)
-        })
+      this.productDeleted(item)
+      // console.log(item)
+      this.$router.push({
+        name: 'Home'
+      })
     },
     setProduct(data) {
       console.log(data)
@@ -112,7 +106,7 @@ export default {
       console.log(data)
       this.form = data
       this.$router.push({
-        name: 'aboutProduct',
+        name: 'orderDetail',
         params: { id: data.product_id }
       })
     },
@@ -130,6 +124,32 @@ export default {
 </script>
 
 <style scoped>
+button.option__delivCatagory.active:hover {
+  color: black;
+  background: #6a4029;
+  font-weight: 700;
+}
+button.option__delivCatagory:hover {
+  background: white;
+  color: black;
+}
+button.option__delivCatagory {
+  height: 40px;
+  width: 100px;
+  font-family: 'Poppins', sans-serif;
+  padding: 5px 10px;
+  background: #6a4029;
+  border: 5px solid rgba(186, 186, 186, 0.35);
+  text-align: center;
+  border: none;
+  font-weight: bold;
+  text-align: center;
+  margin-right: 10px;
+  outline: none !important;
+  border-radius: 10px;
+  color: white;
+  font-size: 15px;
+}
 .centered {
   text-align: center;
 }
@@ -219,9 +239,7 @@ export default {
 .pagination {
   margin-top: 5%;
 }
-.button5 {
-  border-radius: 50%;
-}
+
 .button4 {
   border-radius: 50%;
 }
@@ -237,6 +255,8 @@ export default {
   font-size: 10px;
   margin: 4px 2px;
   cursor: pointer;
+  width: 90px;
+  height: 10px;
 }
 @media only screen and (max-width: 1094px) {
   .voucher-container {

@@ -7,14 +7,14 @@
         <b-row>
           <b-col>
             <div class="colum-user-1 ">
-              <!-- <img
-                :src="'http://localhost:3000/' + item.product_image"
-                class="rounded-circle"
-                width="125"
-                height="100"
-                alt="..."
-              /> -->
-
+              <div class="image__fit">
+                <img
+                  :src="'http://localhost:3000/' + form.product_image"
+                  class="rounded-circle"
+                  width="250"
+                  height="250"
+                />
+              </div>
               <div class="button-set-profile">
                 <button type="file" class="cancel-user" @click="chooseFiles()">
                   Select From Galery
@@ -28,6 +28,11 @@
                 <br />
                 <label for="fname" class="contact-1">Category food :</label
                 ><br />
+                <center>
+                  <p class="contact">
+                    {{ form.category_id }}
+                  </p>
+                </center>
                 <b-dropdown
                   size="lg"
                   split
@@ -36,20 +41,24 @@
                   variant="outline-secondary"
                 >
                   <b-dropdown-item-button @click="handleCategory(1)"
-                    >Coffe</b-dropdown-item-button
+                    >Coffe (1)</b-dropdown-item-button
                   >
                   <b-dropdown-item-button @click="handleCategory(2)"
-                    >Non Coffe</b-dropdown-item-button
+                    >Non Coffe (2)</b-dropdown-item-button
                   >
                   <b-dropdown-item-button @click="handleCategory(3)"
-                    >Food</b-dropdown-item-button
+                    >Food (3)</b-dropdown-item-button
                   >
                 </b-dropdown>
 
                 <p class="title-doyouwanna ">
                   Status:
                 </p>
-
+                <center>
+                  <p class="contact">
+                    {{ form.product_status }}
+                  </p>
+                </center>
                 <b-dropdown
                   size="lg"
                   split
@@ -67,6 +76,11 @@
                 <p class="title-doyouwanna ">
                   Input stock :
                 </p>
+                <center>
+                  <p class="contact">
+                    {{ form.product_stok }}
+                  </p>
+                </center>
                 <b-dropdown
                   size="lg"
                   split
@@ -92,13 +106,25 @@
               <p></p>
               <form>
                 <label for="fname" class="contact-1">Name :</label><br />
-                <input type="text" v-model="form.product_name" /><br />
+                <input
+                  type="text"
+                  class="contact"
+                  v-model="form.product_name"
+                /><br />
                 <label for="fname" class="contact-1">Price:</label><br />
-                <input type="number" v-model="form.product_price" /><br /><br />
+                <input
+                  type="number"
+                  class="contact"
+                  v-model="form.product_price"
+                /><br /><br />
 
                 <p class="contact">Details</p>
                 <label for="fname" class="contact-1">Description :</label><br />
-                <input type="text" v-model="form.product_list" /><br />
+                <input
+                  type="text"
+                  class="contact"
+                  v-model="form.product_list"
+                /><br />
                 <label for="lname" class="contact-1">Input Product Size :</label
                 ><br />
                 <p>Click size you want to use for this product</p>
@@ -160,9 +186,12 @@
             >
           </b-col>
         </b-row>
+        <br />
+        <br />
       </b-container>
-      <br />
     </b-container>
+    <br />
+    <br />
     <Footer />
   </div>
 </template>
@@ -316,6 +345,9 @@ export default {
 </script>
 
 <style scoped>
+.image__fit {
+  margin-left: 20%;
+}
 .type-delivery {
   border-radius: 100%;
   margin-left: 2%;

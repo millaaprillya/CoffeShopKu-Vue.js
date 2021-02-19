@@ -1,42 +1,18 @@
 <template>
   <aside>
-    <p class="aside-text">
-      Cupon will be updated every weeks. <br />
-      Check them out!
-    </p>
-    <div class="aside-card" v-for="(item, index) in voucher" :key="index">
-      <div class="card-item row">
-        <div class="card-image col-3">
-          <img src="../../../assets/voucher/voucher1.png" />
-        </div>
-        <div class="card-text col-9">
-          <strong>{{ item.voucher_name }}</strong>
-          <p>{{ item.voucher_list }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="aside-btn">Apply Coupon</div>
-    <div class="aside-terms">
-      <ul>
-        <li><strong>Terms and Condition</strong></li>
-        <li>1. You can only apply 1 coupon per day</li>
-        <li>2. it only for dine in</li>
-        <li>3. Buy 1 get 1 only for new user</li>
-        <li>4. Should make member card to apply coupon</li>
-      </ul>
-      <p></p>
+    <div class="mr-15">
+      <p><AddVoucher /></p>
     </div>
   </aside>
 </template>
 
 <script>
 import axios from 'axios'
-// import AddVoucher from '../../_base/_admin/_add_voucher'
+import AddVoucher from '../../_base/_admin/_add_voucher'
 
 export default {
   components: {
-    // AddVoucher
+    AddVoucher
   },
   computed: {
     rows() {
@@ -466,5 +442,43 @@ footer .footer-engage {
     top: 175px;
     right: 35%;
   }
+}
+@media only screen and (max-width: 1650px) {
+  .bg-home {
+    margin-left: 25%;
+    margin-right: 25%;
+  }
+  .add-product {
+    margin-top: 5%;
+    text-align: center;
+    width: 300px;
+    height: 70px;
+    border-radius: 20px;
+    background: #ffba33;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    /* identical to box height, or 120% */
+    text-align: center;
+    color: #6a4029;
+  }
+  .edit-data {
+    margin-left: 5px;
+  }
+}
+.add-voucher {
+  margin-top: 10%;
+  width: 300px;
+  height: 70px;
+  left: 156px;
+  top: 1110px;
+  border-radius: 20px;
+  background: #ffba33;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 30px;
 }
 </style>

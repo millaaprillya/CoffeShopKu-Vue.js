@@ -28,18 +28,19 @@
                 type="email"
                 v-model="form.user_email"
                 placeholder="Input Your Email ..."
-                class="login-input"
+                class="form-input"
               /><br />
               <label for="fname" class="label-login">Password :</label><br />
               <input
                 type="password"
                 v-model="form.user_password"
                 placeholder="Input Your Password ..."
-                class="login-input"
+                class="form-input"
               />
               <br />
-              <br />
-              <p>Forgot Password !</p>
+              <router-link class="forgot-label" to="/forgot"
+                >Forgot password ..</router-link
+              >
               <div class="button-login">
                 <b-col
                   ><button type="buttom" class="login-buttom">
@@ -63,10 +64,12 @@
 </template>
 
 <script>
+import alert from '../../mixins/alert'
 import Footer from '../../components/_base/Footer'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'login',
+  mixins: [alert],
   components: {
     Footer
   },
@@ -89,11 +92,11 @@ export default {
       this.login(this.form)
         .then(result => {
           console.log(result)
+          this.successAlert(result.data.msg)
           this.$router.push('/')
         })
         .catch(error => {
-          // console.log(error.response)
-          alert(error.data.msg)
+          this.errorAlert(error.data.msg)
         })
     },
     onReset() {
@@ -111,7 +114,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.forgot-label {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+  text-decoration-line: underline;
+
+  color: #6a4029;
+}
 .col-1-picture {
   height: 700px;
   width: 500px;
@@ -149,16 +162,33 @@ export default {
   margin-left: 10%;
   margin-right: 10%;
 }
-.login-input {
-  width: 100%;
-  height: 10%;
+.form-input {
+  margin-bottom: 2%;
+  width: 505px;
+  height: 60px;
+  left: 817px;
+  top: 309px;
+
   background: #ffffff;
   border: 1px solid #4f5665;
   box-sizing: border-box;
   border-radius: 20px;
+
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #9f9f9f;
 }
 .label-login {
   margin-top: 5%;
+  width: 157px;
+  height: 25px;
+  left: 817px;
+  top: 271px;
+
   font-family: Rubik;
   font-style: normal;
   font-weight: bold;
@@ -171,15 +201,19 @@ export default {
   margin-top: 5%;
 }
 .login-buttom {
-  width: 550px;
+  width: 505px;
   height: 70px;
+  margin-right: 5%;
+
   background: #ffba33;
   box-shadow: 0px 6px 20px rgba(255, 186, 51, 0.4);
   border-radius: 20px;
 }
 .sign-login {
-  width: 550px;
-  height: 70px;
+  width: 505px;
+  height: 60px;
+  left: 817px;
+  top: 309px;
   background: grey;
   box-shadow: 0px 6px 20px rgba(255, 186, 51, 0.4);
   border-radius: 20px;
