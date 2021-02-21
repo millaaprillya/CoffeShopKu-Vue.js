@@ -1,8 +1,8 @@
 <template>
   <div>
-    <nav class="navbar pt-3 pb-4 navbar-expand-lg">
+    <nav class="navbar  pb-4 navbar-expand-lg">
       <div class="container ">
-        <a class="navbar-brand navbar-logo" href="#"
+        <a class="navbar-brand navbar-logo mr-5" href="#"
           ><img src="../../assets/logo.png" alt="" />
           <span class="navbar__title pl-lg-2 position-relative"
             >Coffee Shop</span
@@ -10,7 +10,7 @@
         </a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto ml-lg-auto pt-lg-2">
+          <ul class="navbar-nav mr-auto ml-lg-auto pt-lg-2 ml-5">
             <li class="nav-item">
               <router-link class="pr-lg-4 nav-link" to="/dashboard"
                 >Home</router-link
@@ -27,20 +27,32 @@
             <li class="nav-item active">
               <router-link class="nav-link" to="/history">History</router-link>
             </li>
+            <li>
+              <form
+                class="form-inline  ml-5"
+                mr="5"
+                xl="2"
+                lg="12"
+                md="12"
+                sm="12"
+              >
+                <router-link to="/">
+                  <input
+                    type="text"
+                    placeholder=" Search"
+                    aria-label="Search"
+                    v-model="search"
+                    @keydown.enter.prevent="searchProduct"
+                  />
+                </router-link>
+              </form>
+            </li>
           </ul>
+        </div>
+        <div>
           <div
-            class="d-flex justify-content-around mt-2 align-self-lg-center mb-2 mb-lg-0 pt-lg-1"
+            class="d-flex justify-content-around mt-2 align-self-lg-center mb-2 mb-lg-0 pt-lg-1 ml-5"
           >
-            <form class="form-inline" mr="5" xl="2" lg="12" md="12" sm="12">
-              <router-link to="/">
-                <input
-                  type="text"
-                  placeholder=" Search"
-                  aria-label="Search"
-                  @keydown.enter.prevent="searchProduct"
-                />
-              </router-link>
-            </form>
             <a
               href="#"
               class="position-relative mr-lg-4"
@@ -55,26 +67,74 @@
                 src="../../assets/property/chat.png"
             /></a>
             <a
-              ><img
-                class="costumer__Logo"
-                alt="costumerLogo"
-                src="../../assets/nav/user.png"
-            /></a>
-            <a
-              ><img
-                class="costumer__Logo"
-                alt="costumerLogo"
-                src="../../assets/property/logout.png"
-            /></a>
+              href="#"
+              class="position-relative mr-lg-4"
+              mr="5"
+              xl="2"
+              lg="12"
+              md="12"
+              sm="12"
+            >
+            </a>
+            <a class="nav-link"> {{ profile.user_name }}</a>
+            <b-dropdown class="ml-2">
+              <b-dropdown-item class="bg-white" to="/user">
+                <img
+                  src="../../assets/nav/user.png"
+                  class=" rounded-circle mr-2 ml-2"
+                />Profile
+              </b-dropdown-item>
+              <b-dropdown-item @click="logout"
+                ><img
+                  src="../../assets/property/logout.png"
+                  class=" rounded-circle mr-2"
+                />
+                Logout
+              </b-dropdown-item>
+            </b-dropdown>
           </div>
         </div>
       </div>
     </nav>
   </div>
 </template>
+<script>
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
+export default {
+  name: 'Navbar',
+  data() {
+    return {
+      search: ''
+    }
+  },
+  created() {
+    this.getUserProfile(this.user.user_id)
+  },
+  methods: {
+    ...mapActions(['logout', 'getUserProfile', 'getProducts']),
+    ...mapMutations(['searchProducts']),
+    handleLogout() {
+      console.log('anda berasil login').this.logout()
+    },
+    searchProduct() {
+      this.searchProducts(this.search)
+      this.getProducts()
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'setUser',
+      profile: 'setProfile'
+    })
+  }
+}
+</script>
 <style>
-.nav-item,
+.profile-nav,
+.button-content {
+  background: white;
+}
 .nav-link {
   font-family: Rubik;
   font-style: normal;
@@ -140,16 +200,3 @@
   }
 }
 </style>
-
-<script>
-import { mapActions } from 'vuex'
-export default {
-  name: 'Navbar',
-  methods: {
-    ...mapActions(['logout']),
-    handleLogout() {
-      console.log('anda berasil login').this.logout()
-    }
-  }
-}
-</script>

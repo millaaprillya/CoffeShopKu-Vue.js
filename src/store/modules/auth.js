@@ -24,7 +24,7 @@ export default {
         console.log('Fungsi login yang berada di store vuex')
         console.log(payload)
         axios
-          .post('http://localhost:3000/user/login', payload)
+          .post(`${process.env.VUE_APP_PORT}/user/login`, payload)
           .then(result => {
             // console.log(result)
             context.commit('setUser', result.data.data)
@@ -40,7 +40,7 @@ export default {
     register(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post('http://localhost:3000/user/register', payload)
+          .post(` ${process.env.VUE_APP_PORT}/user/register`, payload)
           .then(response => {
             resolve(response.data.msg)
           })
@@ -52,8 +52,9 @@ export default {
     logout(context) {
       localStorage.removeItem('token')
       localStorage.removeItem('cart')
+      localStorage.removeItem('vuex')
       context.commit('delUser')
-      router.push('/login')
+      router.push('/')
     },
     interceptorRequest(context) {
       console.log('interceptor request Works !')

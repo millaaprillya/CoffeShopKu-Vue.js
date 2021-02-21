@@ -1,16 +1,16 @@
 <template>
   <div>
-    <b-container fluid>
+    <b-container>
       <b-row>
         <b-col class="col-1-picture">Column</b-col>
         <b-col class="col-1-login">
           <b-row>
             <b-col>
-              <div class="logo">
+              <div class="label">
                 <b-col><img src="../../assets/logo.png" />CoffeShop </b-col>
               </div>
             </b-col>
-            <b-col class="register">
+            <b-col class="register label">
               <b-button variant="warning" @click="loginUser()">LOGIN</b-button>
             </b-col>
           </b-row>
@@ -28,14 +28,14 @@
                 type="email"
                 v-model="form.user_email"
                 placeholder="Input Your Email ..."
-                class="login-input"
+                class="form-input"
               /><br />
               <label for="fname" class="label-register">Password :</label><br />
               <input
                 type="password"
                 v-model="form.user_password"
                 placeholder="Input Your Password "
-                class="login-input"
+                class="form-input"
               />
               <br />
               <br />
@@ -44,10 +44,10 @@
                 type="number"
                 v-model="form.user_phone"
                 placeholder="Input Your Number."
-                class="login-input"
+                class="form-input"
               />
               <br />
-              <p>Forgot Password !</p>
+
               <div class="button-login">
                 <b-col
                   ><button
@@ -61,7 +61,8 @@
                 <br />
                 <b-col>
                   <button type="buttom" class="sign-login">
-                    Login with Google
+                    <img src="../../assets/Socmed/google.png" alt="" /> Sign up
+                    with Google
                   </button></b-col
                 >
               </div>
@@ -76,10 +77,12 @@
 
 <script>
 // import axios from 'axios'
+import alert from '../../mixins/alert'
 import Footer from '../../components/_base/Footer'
 import { mapActions } from 'vuex'
 export default {
   name: 'login',
+  mixins: [alert],
   components: {
     Footer
   },
@@ -104,26 +107,55 @@ export default {
     onSubmit() {
       this.register(this.form)
         .then(result => {
-          // this.makeToast('Congratulations', `${result.data.data.user_name}`)
-          console.log(result)
-          this.$router.push('/login')
+          this.makeToast(
+            'Congratulations',
+            `${result.data.data.fullName} Login successfully`,
+            'success'
+          )
         })
         .catch(error => {
           this.makeToast(`${error}`, 'bad request', 'danger')
         })
+    },
+    loginUser() {
+      this.$router.push({
+        name: 'login'
+      })
     }
   }
 }
 </script>
 
 <style>
+.forgot-label {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+  text-decoration-line: underline;
+
+  color: #6a4029;
+}
+.label {
+  margin-left: 20%;
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+
+  color: #6a4029;
+}
 .col-1-picture {
-  height: 700px;
-  width: 500px;
-  background: url('../../assets/bg/bg-login.png');
+  background-image: url('../../assets/bg/bg-login.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 1000px;
 }
 .col-1-login {
-  margin: 2%;
+  margin: 5%;
 }
 .logo {
   font-family: 'Kalam', cursive;
@@ -132,6 +164,7 @@ export default {
 }
 .register {
   text-align: right;
+  border-radius: 100px;
 }
 .register-text {
   border-radius: 20px;
@@ -141,6 +174,7 @@ export default {
   margin-top: 10%;
 }
 .login-text {
+  margin-left: 17%;
   font-family: Rubik;
   font-style: normal;
   font-weight: bold;
@@ -154,13 +188,25 @@ export default {
   margin-left: 10%;
   margin-right: 10%;
 }
-.login-input {
-  width: 100%;
-  height: 10%;
+.form-input {
+  margin-bottom: 2%;
+  width: 515px;
+  height: 60px;
+  left: 817px;
+  top: 309px;
+
   background: #ffffff;
   border: 1px solid #4f5665;
   box-sizing: border-box;
   border-radius: 20px;
+
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #9f9f9f;
 }
 .label-register {
   margin-top: 5%;
@@ -176,17 +222,34 @@ export default {
   margin-top: 5%;
 }
 .login-buttom {
-  width: 550px;
+  width: 505px;
   height: 70px;
+  margin-right: 5%;
+
   background: #ffba33;
   box-shadow: 0px 6px 20px rgba(255, 186, 51, 0.4);
   border-radius: 20px;
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #6a4029;
 }
 .sign-login {
-  width: 550px;
-  height: 70px;
-  background: grey;
-  box-shadow: 0px 6px 20px rgba(255, 186, 51, 0.4);
+  width: 505px;
+  height: 60px;
+  left: 817px;
+  top: 309px;
+  background: White;
   border-radius: 20px;
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: black;
 }
 </style>

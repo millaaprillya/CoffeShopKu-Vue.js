@@ -192,7 +192,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 import Footer from '../../components/_base/Footer'
 import Navbar from '../../components/_base/Navbar'
 
@@ -209,6 +209,7 @@ export default {
   },
   created() {
     this.getUserProfile(this.user.user_id)
+    console.log(this.user.user_id)
   },
   methods: {
     ...mapActions([
@@ -230,11 +231,6 @@ export default {
         .catch(error => {
           this.$toasted.error(error)
         })
-    },
-    mybooking() {
-      this.$router.push({
-        name: 'MyBooking'
-      })
     },
     patchPasword() {
       const setData = { id: this.user.userId, ...this.form }

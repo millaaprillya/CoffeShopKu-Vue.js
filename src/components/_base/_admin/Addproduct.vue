@@ -199,7 +199,6 @@ export default {
     ...mapActions(['addProduct']),
     postProduct() {
       const data = new FormData()
-      console.log(this.form)
       data.append('category_id', this.form.category_id)
       data.append('product_name', this.form.product_name)
       data.append('product_image', this.form.product_image)
@@ -216,15 +215,6 @@ export default {
     },
     setProduct(data) {
       console.log(data)
-      // console.log(this.product_id)
-      // this.form = {
-      //   category_id: 'data.category_id',
-      //   product_name: 'data.product_name',
-      //   product_price: 'data.product_price',
-      //   product_size: 'data.product_size',
-      //   product_list: 'product_list',
-      //   product_status: 'product_status'
-      // }
       this.form = data
       this.product_id = data.product_id
     },

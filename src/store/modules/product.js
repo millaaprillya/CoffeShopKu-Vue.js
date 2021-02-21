@@ -1,6 +1,8 @@
 import axios from 'axios'
+import alert from '../../mixins/alert'
 
 export default {
+  mixins: [alert],
   state: {
     limit: 8,
     page: 1,
@@ -9,7 +11,8 @@ export default {
     product_id: '',
     search: '',
     sort: '',
-    category: ''
+    category: '',
+    payment: []
   },
   mutations: {
     setProduct(state, payload) {
@@ -27,14 +30,10 @@ export default {
     },
     changeCategory(state, payload) {
       state.category = payload
-      state.products = payload.data
-      state.totalRows = payload.pagination.totalData
     }
   },
-  // ${process.env.VUE_APP_PORT}
   actions: {
     getProducts(context) {
-      console.log(context.state)
       return new Promise((resolve, reject) => {
         axios
           .get(
@@ -50,14 +49,15 @@ export default {
       })
     },
     getProductsCategory(context) {
-      console.log(context.state)
+      console.log(context.state.category)
       return new Promise((resolve, reject) => {
         axios
           .get(
-            ` http://localhost:3000/category?page=${context.state.page}&limit=${context.state.limit}&search=${context.state.search}&sort=${context.state.sort}`
+            `${process.env.VUE_APP_PORT}/category?page=${context.state.page}&limit=${context.state.limit}&search=${context.state.category}&sort=${context.state.sort}`
           )
           .then(response => {
-            context.commit('changeSort', response.data)
+            console.log(response)
+            context.commit('setProduct', response.data)
             resolve(response)
           })
           .catch(error => {
@@ -66,14 +66,16 @@ export default {
       })
     },
     addProduct(context, payload) {
+      console.log(payload)
       return new Promise((resolve, reject) => {
         axios
-          .post('http://localhost:3000/product', payload)
+          .post(`${process.env.VUE_APP_PORT}/product`, payload)
           .then(response => {
             console.log(response.data)
             resolve(response.data.data)
           })
           .catch(error => {
+            this.errorAlert(error.response)
             reject(error.response)
           })
       })
@@ -81,12 +83,16 @@ export default {
     patchProduct(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .patch(`http://localhost:3000/product/${payload.id}`, payload.dataSet)
+          .patch(
+            `${process.env.VUE_APP_PORT}/product/${payload.id}`,
+            payload.dataSet
+          )
           .then(response => {
             context.commit('setProduct', response.dataSet)
             resolve(response.dataSet)
           })
           .catch(error => {
+            console.log(error)
             reject(error.response)
           })
       })
@@ -96,7 +102,7 @@ export default {
       //  context itu di ambil dari state
       return new Promise((resolve, reject) => {
         axios
-          .delete(`http://localhost:3000/product/${payload.product_id}`)
+          .delete(`${process.env.VUE_APP_PORT}/product/${payload.product_id}`)
           .then(response => {
             console.log(response)
             resolve(response)

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Product from '../views/Product.vue'
-
 import aboutProduct from '../views/About.vue'
 import payment from '../components/_base/_user/payment.vue'
 import history from '../components/_base/_user/history.vue'
@@ -13,6 +12,8 @@ import login from '../views/auth/login.vue'
 import register from '../views/auth/register.vue'
 import user from '../views/auth/user.vue'
 import dashboard from '../views/dasboard/dashboard.vue'
+import forgotPassword from '../views/auth/forgotPassword.vue'
+import changePassword from '../views/auth/changePassword'
 // import payment from '../views/admin/payment'
 import addProduct from '../components/_base/_admin/Addproduct.vue'
 import store from '../store/index'
@@ -92,6 +93,16 @@ const routes = [
     path: '/user',
     name: 'user',
     component: user
+  },
+  {
+    path: '/forgotPassword',
+    name: 'forgotPassword',
+    component: forgotPassword
+  },
+  {
+    path: '/changePassword',
+    name: 'changePassword',
+    component: changePassword
   },
   {
     path: '/login/',

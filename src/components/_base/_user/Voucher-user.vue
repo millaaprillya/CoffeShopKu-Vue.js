@@ -16,7 +16,9 @@
       </div>
     </div>
 
-    <div class="aside-btn">Apply Coupon</div>
+    <div class="aside-btn">
+      <router-link to="/payment" class="aside-btn">Apply Coupon</router-link>
+    </div>
     <div class="aside-terms">
       <ul>
         <li><strong>Terms and Condition</strong></li>

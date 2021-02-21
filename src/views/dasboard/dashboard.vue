@@ -55,13 +55,11 @@
 </template>
 
 <script>
-// [1] step pertama import komponen
 import Navbar from '../../components/_base/Navbar'
 import Footer from '../../components/_base/Footer'
 
 export default {
   name: 'Product',
-  // [2] step 2 mendaftarkan komponen yang sudah kita import
   components: {
     Navbar,
     Footer

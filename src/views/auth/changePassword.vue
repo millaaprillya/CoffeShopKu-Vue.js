@@ -19,43 +19,35 @@
             >
           </b-row>
           <b-col class="login">
-            <center class="login-text">LOGIN</center>
+            <center class="login-text">Change Password</center>
             <b-form
               @submit.prevent="onSubmit"
               @reset.prevent="onReset"
               class="login-1"
             >
-              <label for="fname" class="label-login">Email adress:</label><br />
+              <label for="fname" class="label-login"> New Password</label><br />
               <input
                 type="email"
                 v-model="form.user_email"
-                placeholder="Input Your Email ..."
+                placeholder=" Input New Password herev..."
                 class="form-input"
               /><br />
-              <label for="fname" class="label-login">Password :</label><br />
+              <label for="fname" class="label-login">Confirm New Password</label
+              ><br />
               <input
                 type="password"
                 v-model="form.user_password"
-                placeholder="Input Your Password ..."
+                placeholder=" Confirm Password here ...."
                 class="form-input"
               />
               <br />
-              <router-link class="forgot-label" to="/forgotPassword"
-                >Forgot password ..</router-link
-              >
               <div class="button-login">
                 <b-col
                   ><button type="buttom" class="login-buttom">
-                    Login
+                    Change Password
                   </button></b-col
                 >
                 <br />
-                <b-col>
-                  <button type="buttom" class="sign-login">
-                    <img src="../../assets/Socmed/google.png" alt="" /> Login
-                    with Google
-                  </button></b-col
-                >
               </div>
             </b-form>
           </b-col>

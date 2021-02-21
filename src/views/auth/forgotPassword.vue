@@ -19,7 +19,7 @@
             >
           </b-row>
           <b-col class="login">
-            <center class="login-text">LOGIN</center>
+            <center class="login-text">Forgot Password</center>
             <b-form
               @submit.prevent="onSubmit"
               @reset.prevent="onReset"
@@ -31,31 +31,15 @@
                 v-model="form.user_email"
                 placeholder="Input Your Email ..."
                 class="form-input"
-              /><br />
-              <label for="fname" class="label-login">Password :</label><br />
-              <input
-                type="password"
-                v-model="form.user_password"
-                placeholder="Input Your Password ..."
-                class="form-input"
               />
-              <br />
-              <router-link class="forgot-label" to="/forgotPassword"
-                >Forgot password ..</router-link
-              >
+
               <div class="button-login">
                 <b-col
                   ><button type="buttom" class="login-buttom">
-                    Login
+                    Send Email
                   </button></b-col
                 >
                 <br />
-                <b-col>
-                  <button type="buttom" class="sign-login">
-                    <img src="../../assets/Socmed/google.png" alt="" /> Login
-                    with Google
-                  </button></b-col
-                >
               </div>
             </b-form>
           </b-col>
@@ -214,11 +198,11 @@ export default {
   color: #4f5665;
 }
 .button-login {
-  margin-top: 20%;
-  margin-right: 20%;
+  margin-top: 5%;
+  margin-right: 25%;
 }
 .login-buttom {
-  width: 505px;
+  width: 500px;
   height: 70px;
   margin-right: 5%;
 
