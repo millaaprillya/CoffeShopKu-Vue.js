@@ -7,8 +7,7 @@
 
 ## About The Project
 
-This project is created for requirement in completing Arkademy FullStack Web Developer Bootcamp.
-This website allow users to book flight from various airlines, interact with admin via chat, get booking notification and status, and also filter the airlines search result.
+The harder it is for your hungry customers to find the ordering buttons on your website, the more customers you will lose.
 
 ## Built With
 
