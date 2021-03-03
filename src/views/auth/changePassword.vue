@@ -20,23 +20,19 @@
           </b-row>
           <b-col class="login">
             <center class="login-text">Change Password</center>
-            <b-form
-              @submit.prevent="onSubmit"
-              @reset.prevent="onReset"
-              class="login-1"
-            >
+            <b-form @submit.prevent="patchPassword" class="login-1">
               <label for="fname" class="label-login"> New Password</label><br />
               <input
-                type="email"
-                v-model="form.user_email"
-                placeholder=" Input New Password herev..."
+                type="password"
+                v-model="form.newPassword"
+                placeholder=" Input New Password here..."
                 class="form-input"
               /><br />
               <label for="fname" class="label-login">Confirm New Password</label
               ><br />
               <input
                 type="password"
-                v-model="form.user_password"
+                v-model="form.confirmPassword"
                 placeholder=" Confirm Password here ...."
                 class="form-input"
               />
@@ -47,6 +43,7 @@
                     Change Password
                   </button></b-col
                 >
+
                 <br />
               </div>
             </b-form>
@@ -63,7 +60,7 @@ import alert from '../../mixins/alert'
 import Footer from '../../components/_base/Footer'
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: 'login',
+  name: 'reset',
   mixins: [alert],
   components: {
     Footer
@@ -71,8 +68,9 @@ export default {
   data() {
     return {
       form: {
-        user_email: '',
-        user_password: ''
+        key: '',
+        newPassword: '',
+        confirmPassword: ''
       }
     }
   },
@@ -82,23 +80,19 @@ export default {
   },
   methods: {
     // mapAction & mapMutation
-    ...mapActions(['login']),
-    onSubmit() {
-      this.login(this.form)
+    ...mapActions(['resetPassword']),
+    patchPassword() {
+      this.resetPassword(this.form)
         .then(result => {
+          this.makeToast(`${result.data.msg}`, `Congratulations`, 'success')
+          setTimeout(() => {
+            this.$router.push('/')
+          }, 2500)
           console.log(result)
-          this.successAlert(result.data.msg)
-          this.$router.push('/')
         })
         .catch(error => {
-          this.errorAlert(error.data.msg)
+          this.makeToast('Failed', `${error.data.msg}`, 'danger')
         })
-    },
-    onReset() {
-      this.form = {
-        user_email: '',
-        user_password: ''
-      }
     },
     registerUser() {
       this.$router.push({

@@ -10,71 +10,88 @@
               <h1>Let’s see what you have bought!</h1>
               <p>Select item to delete</p>
             </div>
-
-            <!-- Modal -->
-
-            <div class="d-flex pr-xl-5 mr-xl-3 pr-1">
-              <a
-                href="#"
-                data-toggle="modal"
-                data-target="#staticBackdrop"
-                class="select_all ml-xl-auto ml-auto mb-4 mb-xl-5"
-                >Select All</a
-              >
+            <div class="row">
               <div
-                class="modal fade"
-                id="staticBackdrop"
-                data-backdrop="static"
-                data-keyboard="false"
-                tabindex="-1"
-                aria-labelledby="staticBackdropLabel"
-                aria-hidden="true"
+                class="col-sm-6"
+                v-for="(items, index) in history"
+                :key="index"
               >
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content mt-lg-5 mt-4 p-4 p-lg-4">
-                    <div class="modal-body">
-                      <h2 class="text-center">
-                        Are you sure want to delete the selected items?
-                      </h2>
-                    </div>
-                    <div class="modal-footer px-lg-5 mt-lg-4 mb-lg-2">
-                      <button
-                        type="button"
-                        class="btn_cancel mr-auto"
-                        data-dismiss="modal"
-                      >
-                        Cancel
-                      </button>
-                      <button type="button" class="btn_delete">Delete</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="row px-xl-5 grid__system"
-              v-for="(item, index) in orders"
-              :key="index"
-            >
-              <div class="col">
-                <div class="card p-xl-1 position-relative mb-3 mb-lg-4">
-                  <div class="card-body d-flex align-items-center">
-                    <div class="image__history">
-                      <img class="fit__image" alt="Image_History" />
-                    </div>
-                    <div class="all__infoHistory position-relative">
-                      <h2 class="title__product">{{ item.product_price }}</h2>
-                      <div class="info__history">
-                        <p class="mt-xl-3 mt-3">{{ item.product_price }}</p>
-                        <p>Delivered</p>
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <h5 class="card-title">
+                          History id : {{ items.history_id }}
+                        </h5>
+                        <p class="card-text">
+                          Subtotal : {{ items.history_subtotal }}
+                        </p>
+                        <div>
+                          <b-button
+                            v-b-modal.modal-scrollable
+                            class="btn btn-warning"
+                            v-b-modal="modalId(index)"
+                            >See details orders</b-button
+                          >
+
+                          <b-modal
+                            scrollable
+                            title="Order Detail"
+                            hide-footer
+                            :id="'modal' + index"
+                          >
+                            <div>
+                              <center>
+                                <div
+                                  class="aside-card"
+                                  v-for="(item, i) in items.orders"
+                                  :key="i"
+                                >
+                                  <div class="card-item row">
+                                    <div class="card-image col-3">
+                                      <img
+                                        src="'http://localhost:3000/' + item.product_image"
+                                        alt=""
+                                        class="rounded-circle"
+                                      />
+                                      <!-- {{ item.product_image }} -->
+                                    </div>
+                                    <div class="card-text col-5">
+                                      <strong>{{ item.product_name }}</strong>
+                                      <p>
+                                        Price :
+                                        {{ item.product_price }}
+                                      </p>
+                                      <h6>Qty : {{ item.order_qty }} x</h6>
+                                    </div>
+                                    <div class="card-text col-1">
+                                      <label>Total </label>
+                                      <strong
+                                        >{{
+                                          item.order_qty * item.product_price
+                                        }}
+                                      </strong>
+                                    </div>
+                                  </div>
+                                </div>
+                              </center>
+                              <!-- <p class="my-4">
+                                {{ item.product_name }}
+                              </p>
+                              <p>
+                                {{ item.product_price }}
+                              </p>
+                              <p>
+                                {{ item.order_qty }}
+                              </p>
+                              <p>
+                                {{ item.order_total }}
+                              </p> -->
+                            </div>
+                          </b-modal>
+                        </div>
                       </div>
                     </div>
-                    <input
-                      class="ml-xl-auto ml-auto mt-4 mt-xl-auto mr-xl-3 mb-xl-3"
-                      type="checkbox"
-                      id="inlineCheckbox1"
-                      value="option1"
-                    />
                   </div>
                 </div>
               </div>
@@ -88,11 +105,9 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex'
 import Footer from '../Footer'
 import Navbar from '../Navbar'
-// import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'History',
   components: {
@@ -105,6 +120,7 @@ export default {
       form: {
         order_id: '',
         history_id: '',
+        product_name: '',
         product_id: '',
         product_price: '',
         order_qty: '',
@@ -114,35 +130,34 @@ export default {
     }
   },
   created() {
-    this.gethistory()
-    console.log(this.gethistory)
+    this.getHistoryPayment(this.user.user_id)
     this.getUserProfile(this.user.user_id)
-    console.log(this.getUserProfile)
   },
   methods: {
-    ...mapActions(['getUserProfile']),
-    gethistory() {
-      axios
-        .get('http://localhost:3000/order/74')
-        .then(response => {
-          console.log(response)
-          this.history = response.data.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    computed: {
-      ...mapGetters({
-        user: 'setUser',
-        profile: 'setProfile'
-      })
+    ...mapActions(['getUserProfile', 'getHistoryPayment']),
+    modalId(index) {
+      return 'modal' + index
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'setUser',
+      history: 'getHistory'
+    })
   }
 }
 </script>
 
 <style scoped>
+.aside-card {
+  background-color: white;
+  border-radius: 20px;
+  width: 335px;
+  height: 109px;
+  padding: 10px;
+  margin-top: 20px;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.22);
+}
 .grid__system {
   width: 500px;
   height: 70px;
@@ -200,5 +215,15 @@ export default {
 .img {
   width: auto;
   border-radius: 50%;
+}
+.card {
+  border-radius: 20px;
+  margin-left: 200px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 50%;
+}
+.card-item {
+  height: 100%;
 }
 </style>

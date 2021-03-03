@@ -37,7 +37,7 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .get(
-            ` ${process.env.VUE_APP_PORT}/product?page=${context.state.page}&limit=${context.state.limit}&search=${context.state.search}&sort=${context.state.sort}`
+            ` ${process.env.VUE_APP_PORT}/product/?page=${context.state.page}&limit=${context.state.limit}&search=${context.state.search}&sort=${context.state.sort}`
           )
           .then(response => {
             context.commit('setProduct', response.data)
@@ -49,14 +49,13 @@ export default {
       })
     },
     getProductsCategory(context) {
-      console.log(context.state.category)
+      // console.log(context.state.category)
       return new Promise((resolve, reject) => {
         axios
           .get(
             `${process.env.VUE_APP_PORT}/category?page=${context.state.page}&limit=${context.state.limit}&search=${context.state.category}&sort=${context.state.sort}`
           )
           .then(response => {
-            console.log(response)
             context.commit('setProduct', response.data)
             resolve(response)
           })
@@ -66,21 +65,19 @@ export default {
       })
     },
     addProduct(context, payload) {
-      console.log(payload)
       return new Promise((resolve, reject) => {
         axios
-          .post(`${process.env.VUE_APP_PORT}/product`, payload)
+          .post(`${process.env.VUE_APP_PORT}/product/`, payload)
           .then(response => {
-            console.log(response.data)
             resolve(response.data.data)
           })
           .catch(error => {
-            this.errorAlert(error.response)
-            reject(error.response)
+            reject(error.response.data.msg)
           })
       })
     },
     patchProduct(context, payload) {
+      console.log(payload)
       return new Promise((resolve, reject) => {
         axios
           .patch(
@@ -99,10 +96,9 @@ export default {
     },
     productDeleted(context, payload) {
       console.log(payload)
-      //  context itu di ambil dari state
       return new Promise((resolve, reject) => {
         axios
-          .delete(`${process.env.VUE_APP_PORT}/product/${payload.product_id}`)
+          .delete(`${process.env.VUE_APP_PORT}/product/${payload}`)
           .then(response => {
             console.log(response)
             resolve(response)
@@ -127,14 +123,14 @@ export default {
     getTotalRowsProduct(state) {
       return state.totalRows
     },
-    getAllDataState(state) {
-      return state
-    },
     getProduct(state) {
       return state.products
     },
     getCategoryNameProduct(state) {
       return state.category
+    },
+    getPaymentProduct(state) {
+      return state.payment
     }
   }
 }

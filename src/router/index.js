@@ -12,6 +12,7 @@ import login from '../views/auth/login.vue'
 import register from '../views/auth/register.vue'
 import user from '../views/auth/user.vue'
 import dashboard from '../views/dasboard/dashboard.vue'
+import income from '../views/admin/income.vue'
 import forgotPassword from '../views/auth/forgotPassword.vue'
 import changePassword from '../views/auth/changePassword'
 // import payment from '../views/admin/payment'
@@ -24,6 +25,11 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: dashboard
+  },
+  {
+    path: '/income',
+    name: 'income',
+    component: income
   },
   {
     path: '/Home',
@@ -43,12 +49,12 @@ const routes = [
     component: aboutProduct,
     meta: { requiresAuth: true }
   },
-  {
-    path: '/payment/:id',
-    name: 'payment',
-    component: payment,
-    meta: { requiresAuth: true }
-  },
+  // {
+  //   path: '/payment/:id',
+  //   name: 'payment',
+  //   component: payment,
+  //   meta: { requiresAuth: true }
+  // },
   {
     path: '/addVoucher/',
     name: 'addVoucher',
@@ -74,7 +80,7 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/history/',
+    path: '/history/:id',
     name: 'history',
     component: history,
     meta: { requiresAuth: true }
@@ -100,7 +106,7 @@ const routes = [
     component: forgotPassword
   },
   {
-    path: '/changePassword',
+    path: '/changePassword/:keys',
     name: 'changePassword',
     component: changePassword
   },

@@ -11,6 +11,7 @@
                 <button type="file" class="cancel-user" @click="chooseFiles()">
                   Select From Galery
                 </button>
+                <div class="mt-3">Selected file: {{ form.product_image }}</div>
                 <input
                   id="fileUpload"
                   type="file"
@@ -20,29 +21,18 @@
                 <br />
                 <label for="fname" class="contact-1">Category food :</label
                 ><br />
-                <b-dropdown
-                  size="lg"
-                  split
-                  text="Choose Category here"
-                  class="m-2"
-                  variant="outline-secondary"
-                >
-                  <b-dropdown-item-button @click="handleCategory(1)"
-                    >Coffe</b-dropdown-item-button
-                  >
-                  <b-dropdown-item-button @click="handleCategory(2)"
-                    >Non Coffe</b-dropdown-item-button
-                  >
-                  <b-dropdown-item-button @click="handleCategory(3)"
-                    >Food</b-dropdown-item-button
-                  >
-                </b-dropdown>
-
+                <template>
+                  <div>
+                    <b-form-select
+                      v-model="form.category_id"
+                      :options="options"
+                    ></b-form-select>
+                  </div>
+                </template>
                 <p class="title-doyouwanna ">
                   Status:
                 </p>
-
-                <b-dropdown
+                <!-- <b-dropdown
                   size="lg"
                   split
                   text="Product Status"
@@ -55,11 +45,21 @@
                   <b-dropdown-item-button @click="handleStatus(0)"
                     >none Active
                   </b-dropdown-item-button>
-                </b-dropdown>
+                </b-dropdown> -->
+                <template>
+                  <div>
+                    <b-form-select
+                      v-model="form.product_status"
+                      :options="options_status"
+                    ></b-form-select>
+                  </div>
+                </template>
                 <p class="title-doyouwanna ">
                   Input stock :
                 </p>
-                <b-dropdown
+
+                <!-- class="m-2" -->
+                <!-- <b-dropdown
                   size="lg"
                   split
                   text="Input stock"
@@ -75,22 +75,53 @@
                   <b-dropdown-item-button @click="handleStok(40)"
                     >40</b-dropdown-item-button
                   >
-                </b-dropdown>
-              </div>
-            </div></b-col
-          >
+                </b-dropdown> -->
+                <template>
+                  <div>
+                    <b-form-select
+                      v-model="form.product_stok"
+                      :options="optionsStok"
+                    ></b-form-select>
+                  </div>
+                </template>
+              </div></div
+          ></b-col>
           <b-col>
             <b-container class="card-contact">
               <p></p>
               <form>
                 <label for="fname" class="contact-1">Name :</label><br />
-                <input type="text" v-model="form.product_name" /><br />
+                <!-- <input type="text" v-model="form.product_name" /><br /> -->
+                <template>
+                  <div>
+                    <b-form-input
+                      v-model="form.product_name"
+                      placeholder="Insert Product name"
+                    ></b-form-input>
+                  </div>
+                </template>
                 <label for="fname" class="contact-1">Price:</label><br />
-                <input type="number" v-model="form.product_price" /><br /><br />
-
+                <!-- <input type="number" v-model="form.product_price" /><br /><br /> -->
+                <template>
+                  <div>
+                    <b-form-input
+                      v-model="form.product_price"
+                      placeholder="Rp : xxxxx"
+                      type="number"
+                    ></b-form-input>
+                  </div>
+                </template>
+                <br />
                 <p class="contact">Details</p>
                 <label for="fname" class="contact-1">Description :</label><br />
-                <input type="text" v-model="form.product_list" /><br />
+                <template>
+                  <div>
+                    <b-form-input
+                      v-model="form.product_list"
+                      placeholder="Product Details"
+                    ></b-form-input>
+                  </div>
+                </template>
                 <label for="lname" class="contact-1">Input Product Size :</label
                 ><br />
                 <p>Click size you want to use for this product</p>
@@ -148,8 +179,8 @@
                 >
                   Save Product
                 </button>
-              </form></b-container
-            >
+              </form>
+            </b-container>
           </b-col>
         </b-row>
       </b-container>
@@ -160,10 +191,11 @@
 </template>
 
 <script>
+// import alert from '../../../mixins/alert'
 import { mapActions } from 'vuex'
 export default {
-  name: 'Product',
-
+  name: 'Addproduct',
+  // mixins: [alert],
   components: {},
   computed: {
     rows() {
@@ -183,20 +215,31 @@ export default {
         product_stok: '',
         product_status: ''
       },
-      alert: false,
-      isMsg: '',
-      product_id: '',
-      currentPage: '1',
-      totalRows: 'null',
-      limit: 8,
-      page: 1
+      options: [
+        { value: '', text: 'Choose Category Product' },
+        { value: 1, text: 'Coffee' },
+        { value: 2, text: 'NonCoffe' },
+        { value: 3, text: 'Foods' },
+        { value: 5, text: 'Desert' }
+      ],
+      options_status: [
+        { value: '', text: 'Product Status' },
+        { value: 1, text: 'active' },
+        { value: 2, text: 'None' }
+      ],
+      optionsStok: [
+        { value: '', text: 'Product Status' },
+        { value: 30, text: 'Stok Product Ready 10 - 30 ' },
+        { value: 50, text: 'Stok Product Ready 10 - 50 ' },
+        { value: 100, text: 'Stock 100' }
+      ]
     }
   },
   created() {
-    // this.getProducts()
+    this.getProducts()
   },
   methods: {
-    ...mapActions(['addProduct']),
+    ...mapActions(['addProduct', 'getProducts']),
     postProduct() {
       const data = new FormData()
       data.append('category_id', this.form.category_id)
@@ -207,25 +250,27 @@ export default {
       data.append('product_price', this.form.product_price)
       data.append('product_size', this.form.product_size)
       data.append('product_status', this.form.product_status)
+      for (var pair of data.entries()) {
+        console.log(pair[0] + ', ' + pair[1])
+      }
+
       this.addProduct(data)
-    },
-    //  pr
-    deleteProduct(product_id) {
-      console.log(product_id)
+        .then(result => {
+          alert(result)
+          this.$router.push('/Home')
+        })
+        .catch(error => {
+          alert(error)
+        })
+      this.getProducts()
     },
     setProduct(data) {
       console.log(data)
+      console.log('ini data ', data)
       this.form = data
       this.product_id = data.product_id
     },
-    pacthProduct() {
-      console.log(this.form)
-    },
-    handlePageChange(numberPage) {
-      console.log(numberPage)
-      this.page = numberPage
-      this.getProduct()
-    },
+
     handleFile(event) {
       console.log(event.target.files[0])
       this.form.product_image = event.target.files[0]
@@ -234,23 +279,9 @@ export default {
       console.log(size)
       this.form.product_size = size
     },
-    handleStok(stock) {
-      this.form.product_stok = stock
-      console.log(stock)
-    },
-    handlegr() {
-      // this.form.product_size
-    },
-    handleStatus(status) {
-      this.form.product_status = status
-      console.log(status)
-    },
+
     chooseFiles() {
       document.getElementById('fileUpload').click()
-    },
-    handleCategory(category) {
-      console.log(category)
-      this.form.category_id = category
     }
   }
 }

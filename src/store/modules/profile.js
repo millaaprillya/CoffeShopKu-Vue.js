@@ -4,6 +4,7 @@ export default {
   state: {
     profile: '',
     form: {
+      user_img: '',
       user_email: '',
       user_phone: '',
       user_address: '',
@@ -22,7 +23,7 @@ export default {
     getUserProfile(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .get(` ${process.env.VUE_APP_PORT}/user/${payload}`)
+          .get(`${process.env.VUE_APP_PORT}/user/${payload}`)
           .then(response => {
             context.commit('setUserProfile', response.data.data[0])
             resolve(response.data.data[0])
@@ -41,7 +42,6 @@ export default {
             payload.data
           )
           .then(response => {
-            console.log(response.data.data)
             resolve(response.data.msg)
           })
           .catch(error => {
@@ -66,6 +66,7 @@ export default {
           })
       })
     },
+
     deleteProfilePict(context, payload) {
       return new Promise((resolve, reject) => {
         axios
@@ -77,6 +78,20 @@ export default {
           })
           .catch(error => {
             reject(error.response.data.message)
+          })
+      })
+    },
+    forgotPassword(context, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post(`${process.env.VUE_APP_PORT}/user/forgot`, payload)
+          .then(result => {
+            console.log(result)
+            resolve(result)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
           })
       })
     },
@@ -92,7 +107,40 @@ export default {
             reject(error.response.data.msg)
           })
       })
+    },
+    resetPassword(context, payload) {
+      return new Promise((resolve, reject) => {
+        console.log(payload)
+        axios
+          .patch(
+            `${process.env.VUE_APP_PORT}/user/resetPassword/email`,
+            payload
+          )
+          .then(result => {
+            console.log(result)
+            resolve(result)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
     }
+  },
+  changePasswords(context, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .patch(
+          `${process.env.VUE_APP_URL}workers/newPassword/${context.state.user.user_id}`,
+          payload
+        )
+        .then(result => {
+          resolve(result)
+        })
+        .catch(error => {
+          reject(error.response)
+        })
+    })
   },
   getters: {
     setProfile(state) {

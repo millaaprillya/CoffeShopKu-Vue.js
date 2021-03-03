@@ -20,6 +20,7 @@
               height="125a"
               alt="..."
             />
+            {{ product_image }}
             <b-col class="card-title">
               {{ item.product_name }}
             </b-col>
@@ -34,7 +35,10 @@
                   </button>
                 </b-col>
                 <b-col>
-                  <button class="button button5" @click="deleteProduct(item)">
+                  <button
+                    class="button button5"
+                    @click="deleteProduct(item.product_id)"
+                  >
                     D
                   </button>
                 </b-col>
@@ -49,10 +53,11 @@
 
 <script>
 // import axios from 'axios'
+// import { alert } from '../../../mixins/alert'
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  // mixins: [alert],
   name: 'Product',
-
   computed: {
     // rows() {
     //   return this.totalRows
@@ -80,18 +85,18 @@ export default {
   },
   created() {
     this.getProducts()
+    console.log('hello')
+    console.log(this.getProducts)
   },
   methods: {
     ...mapActions(['getProducts', 'postProduct', 'productDeleted']),
     deleteProduct(item) {
       this.productDeleted(item)
-      this.$router.push({
-        name: 'Home'
-      })
+      this.getProducts()
+      console.log(item)
     },
     setProduct(data) {
       console.log(data)
-
       this.form = data
       this.product_id = data.product_id
     },
@@ -148,9 +153,7 @@ export default {
   font-size: 22px;
   line-height: 101.34%;
   /* or 22px */
-
   text-align: center;
-
   color: #000000;
 }
 .rounded-circle {
@@ -171,7 +174,6 @@ export default {
   font-style: normal;
   font-weight: bold;
   text-align: center;
-
   color: #6a4029;
 }
 .header-menu {
@@ -180,7 +182,6 @@ export default {
 .info-promo {
   margin: 10%;
   margin-left: 10%;
-
   font-family: 'Source Serif Pro', serif;
   font-size: 150%;
   padding-bottom: 5%;
@@ -206,9 +207,7 @@ export default {
   font-size: 20px;
   line-height: 30px;
   /* identical to box height, or 120% */
-
   text-align: center;
-
   color: #6a4029;
 }
 .pagination {
@@ -252,11 +251,8 @@ export default {
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
-
     /* identical to box height, or 120% */
-
     text-align: center;
-
     color: #6a4029;
   }
   .edit-data {

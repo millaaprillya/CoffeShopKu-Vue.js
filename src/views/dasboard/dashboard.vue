@@ -70,6 +70,9 @@ export default {
 <style scoped>
 .bg-jb {
   background: url('../../assets/bg/bg-dashboard.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .bg-jb-2 {
   background: white;

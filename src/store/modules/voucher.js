@@ -2,8 +2,6 @@ import axios from 'axios'
 
 export default {
   state: {
-    // limit: 10,
-    // page: 1,
     voucher: [],
     totalRows: null
   },
@@ -32,18 +30,9 @@ export default {
     }
   },
   getters: {
-    // getPageProduct(state) {
-    //   return state.page
-    // },
-    // getLimitProduct(state) {
-    //   return state.limit
-    // },
     getDataVoucher(state) {
       return state.voucher
     },
-    // getTotalRowsProduct(state) {
-    //   return state.totalRows
-    // },
     getAllDataState(state) {
       return state
     }

@@ -82,8 +82,8 @@ export default {
   methods: {
     ...mapActions(['getProducts', 'postProduct', 'productDeleted']),
     deleteProduct(item) {
-      this.productDeleted(item)
-      // console.log(item)
+      // this.productDeleted(item)
+      console.log(item)
       this.$router.push({
         name: 'Home'
       })

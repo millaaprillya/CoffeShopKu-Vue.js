@@ -10,7 +10,6 @@
                 <b-col><img src="../../assets/logo.png" />CoffeShop </b-col>
               </div>
             </b-col>
-
             <b-button
               class="register label "
               variant="warning"

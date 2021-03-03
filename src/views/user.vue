@@ -22,18 +22,21 @@
           <b-col xl="8" lg="8" md="12" sm="12">
             <b-container class="bg-home">
               <div>
-                <ul class="header-menu ">
-                  <li class="nav-item" @click="categoryFood()">
-                    <a> favorite Product</a>
+                <ul class="header-menu">
+                  <li class="nav-item" @click="categoryFood('')">
+                    <a>All Product</a>
                   </li>
                   <li class="nav-item" @click="categoryFood('Coffee')">
                     <a>coffee</a>
                   </li>
-                  <li class="nav-item" @click="categoryFood('Non Coffee')">
+                  <li class="nav-item" @click="categoryFood('NonCoffe')">
                     <a>Non Coffee</a>
                   </li>
                   <li class="nav-item" @click="categoryFood('Foods')">
                     <a>Foods</a>
+                  </li>
+                  <li class="nav-item" @click="categoryFood('Desert')">
+                    <a>Dersert</a>
                   </li>
                   <li>
                     <b-dropdown
@@ -85,11 +88,9 @@ import Footer from '../components/_base/Footer'
 import Voucher from '../components/_base/_user/Voucher-user'
 import Card from '../components/_base/_user/product'
 
-import axios from 'axios'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
-  name: 'Product',
-  // [2] step 2 mendaftarkan komponen yang sudah kita import
+  name: 'userHome',
   components: {
     Navbar,
     Footer,
@@ -98,16 +99,13 @@ export default {
   },
   computed: {
     ...mapGetters({
+      user: 'setUser',
       products: 'getDataProduct',
       page: 'getPageProduct',
       limit: 'getLimitProduct',
       rows: 'getTotalRowsProduct',
       category: 'getCategoryNameProduct'
-    }),
-    // rows() {
-    //   return this.totalRows
-    // },
-    ...mapGetters({ user: 'setUser' })
+    })
   },
   data() {
     return {
@@ -128,33 +126,21 @@ export default {
     }
   },
   created() {
-    // this.getProducts()
+    this.getUserProfile(this.user.user_id)
   },
   methods: {
-    ...mapActions(['getProducts', 'getProductsCategory']),
+    ...mapActions(['getUserProfile', 'getProductsCategory', 'getProducts']),
     ...mapMutations([
       'changePage',
       'changeSort',
       'changeCategory',
       'searchProducts',
-      'getVoucher'
+      'getVoucher',
+      'changeSort'
     ]),
-    deleteProduct(item) {
-      axios
-        .delete(`http://localhost:3000/product/${item.product_id}`)
-        .then(response => {
-          console.log(response)
-          this.alert = true
-          this.isMsg = response.data.msg
-          this.getProduct()
-          this.$router.push('/')
-        })
-        .catch(error => {
-          console.log(error.response)
-        })
-    },
-    pacthProduct() {
-      console.log(this.form)
+    categoryFood(category) {
+      this.changeCategory(category)
+      this.getProductsCategory()
     },
     handlePageChange(numberPage) {
       this.changePage(numberPage)
@@ -162,29 +148,8 @@ export default {
       // this.page = numberPage
       this.getProducts()
     },
-    productAbout(data) {
-      console.log(data)
-      this.form = data
-      this.$router.push({
-        name: 'aboutProduct',
-        params: { id: data.product_id }
-      })
-    },
-    categoryFood(category) {
-      this.changeCategory(category)
-      this.getProductsCategory()
-    },
     handleSort(sort) {
       this.changeSort(sort)
-      this.getProducts()
-    },
-    addProductform() {
-      this.$router.push({
-        name: 'addProduct'
-      })
-    },
-    searchProduct(search) {
-      this.searchProducts(search.target.value)
       this.getProducts()
     }
   }

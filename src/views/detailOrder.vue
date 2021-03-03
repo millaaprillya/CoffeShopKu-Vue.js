@@ -52,6 +52,7 @@
                     <input
                       type="text"
                       placeholder="Enter time for reservation"
+                      v-model="form.set_time"
                       class="form-control"
                       id="setTime"
                     />
@@ -81,18 +82,8 @@
                 <div
                   class="d-flex align-items-center order-2 order-lg-1 mt-2 mb-4 mt-lg-2 mb-lg-5 inputProduct__range"
                 >
-                  <button type="button" class="minbtn">
-                    <svg
-                      style="text-align: center"
-                      width="2em"
-                      height="1.4em"
-                      viewBox="0 0 16 16"
-                      class="bi bi-dash-circle"
-                      fill="red"
-                    >
-                      <path fill-rule="evenodd" />
-                      <path fill-rule="evenodd" />
-                    </svg>
+                  <button type="button" class="minbtn" @click="minkQty()">
+                    -
                   </button>
                   <input
                     class="inputbtn"
@@ -100,20 +91,10 @@
                     min="0"
                     type="text"
                     readonly
-                    value="2"
+                    v-model="this.form.order_qty"
                   />
-                  <button type="button" class="plusbtn">
-                    <svg
-                      width="2em"
-                      style="text-align: center"
-                      height="1.4em"
-                      viewBox="0 0 16 16"
-                      class="bi bi-plus-circle"
-                      fill="#6A4029"
-                    >
-                      <path fill-rule="evenodd" />
-                      <path fill-rule="evenodd" />
-                    </svg>
+                  <button type="button" class="plusbtn" @click="plusQty()">
+                    +
                   </button>
                 </div>
                 <h2
@@ -165,7 +146,11 @@
 
             <!-- Dekstop Display -->
             <div class="button__Cart d-none d-lg-block">
-              <button class="col-12 btn__toCartnStaf mb-lg-4" type="button">
+              <button
+                class="col-12 btn__toCartnStaf mb-lg-4"
+                type="button"
+                @click="addToCart()"
+              >
                 Add to Cart
               </button>
               <button class="col-12 btn__toCartnStaf" type="button">
@@ -190,7 +175,11 @@
             </div>
             <!-- Mobile Display -->
             <div class="button__Cart col-sm-12 d-block d-md-none">
-              <button class="btn__toCartnStaf mb-3 mb-lg-4" type="button">
+              <button
+                class="btn__toCartnStaf mb-3 mb-lg-4"
+                type="button"
+                @click="addToCart()"
+              >
                 Add to Cart
               </button>
               <button class="btn__toCartnStaf" type="button">
@@ -215,14 +204,14 @@
                       </ul>
                     </div>
                   </div>
-                  <h2 class="mt-lg-2 mt-xl-2 checkOut__name ml-lg-auto">
-                    Checkout
-                  </h2>
                   <a href="#"
-                    ><img
-                      class="ml-lg-3 ml-xl-4 pb-lg-0 arrow__icons"
-                      alt="icon_arrowCheckout"
-                  /></a>
+                    ><button
+                      class="btn__toCheckout mt-lg-2 mt-xl-2 mr-2 "
+                      type="button"
+                    >
+                      Checkout
+                    </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -235,7 +224,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Navbar from '../components/_base/Navbar'
 import Footer from '../components/_base/Footer'
 import axios from 'axios'
@@ -268,6 +257,7 @@ export default {
         product_stok: '',
         product_status: ''
       },
+
       alert: false,
       isMsg: '',
       product_id: '',
@@ -283,6 +273,7 @@ export default {
   },
   methods: {
     ...mapActions(['getProducts', 'patchProduct']),
+    ...mapMutations(['addOrder']),
     deleteProduct(product_id) {
       console.log(product_id)
     },
@@ -309,7 +300,8 @@ export default {
             product_stok,
             product_price,
             product_size,
-            product_status
+            product_status,
+            order_qty: 1
           }
           const data = {
             product_id: this.product_id,
@@ -347,7 +339,20 @@ export default {
         })
       this.$bvModal.hide('add-product-modal')
     },
-
+    minkQty() {
+      this.form.order_qty = this.form.order_qty - 1
+    },
+    plusQty() {
+      this.form.order_qty = this.form.order_qty + 1
+    },
+    addToCart() {
+      const cart = {
+        product_id: this.product_id,
+        ...this.form
+      }
+      this.addOrder(cart)
+      console.log(cart)
+    },
     handlePageChange(numberPage) {
       console.log(numberPage)
       this.page = numberPage
@@ -630,6 +635,8 @@ button.minbtn {
   outline: none !important;
   width: 45px;
   border: none;
+  font-size: 30px;
+  font-weight: bold;
 }
 input.inputbtn {
   width: 50px;
@@ -659,12 +666,24 @@ h2.priceTag__Product {
 button.btn__toCartnStaf {
   height: 70px;
   width: 100%;
-  margin-left: 5%;
+  margin-left: 10%;
   outline: none !important;
   border-radius: 20px;
   font-size: 22px;
   border: none;
   font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+
+button.btn__toCheckout {
+  height: 70px;
+  width: 120%;
+  margin-left: 15%;
+  outline: none !important;
+  border-radius: 20px;
+  font-size: 15px;
+  border: none;
+  font-weight: 800;
   font-family: 'Poppins', sans-serif;
 }
 button.btn__toCartnStaf:nth-child(1) {

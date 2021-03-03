@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar  pb-4 navbar-expand-lg">
+    <nav class="navbar  pb-3 navbar-expand-lg">
       <div class="container ">
         <a class="navbar-brand navbar-logo mr-5" href="#"
           ><img src="../../assets/logo.png" alt="" />
@@ -24,9 +24,13 @@
                 >Your Cart</router-link
               >
             </li>
-            <li class="nav-item active">
-              <router-link class="nav-link" to="/history">History</router-link>
+            <li
+              class="nav-item active pr-lg-4 nav-link"
+              @click="historyPage(profile)"
+            >
+              History
             </li>
+
             <li>
               <form
                 class="form-inline  ml-5"
@@ -112,7 +116,12 @@ export default {
     this.getUserProfile(this.user.user_id)
   },
   methods: {
-    ...mapActions(['logout', 'getUserProfile', 'getProducts']),
+    ...mapActions([
+      'logout',
+      'getUserProfile',
+      'getProducts',
+      'getHistoryPayment'
+    ]),
     ...mapMutations(['searchProducts']),
     handleLogout() {
       console.log('anda berasil login').this.logout()
@@ -120,6 +129,12 @@ export default {
     searchProduct() {
       this.searchProducts(this.search)
       this.getProducts()
+    },
+    historyPage(profile) {
+      this.$router.push({
+        name: 'history',
+        params: { id: profile.user_id }
+      })
     }
   },
   computed: {

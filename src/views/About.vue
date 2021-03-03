@@ -105,6 +105,7 @@
             <b-container class="card-contact">
               <p></p>
               <form>
+                {{ form.product_image }}
                 <label for="fname" class="contact-1">Name :</label><br />
                 <input
                   type="text"
@@ -201,6 +202,7 @@ import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex'
 import Navbar from '../components/_base/Navbar'
 import Footer from '../components/_base/Footer'
+
 export default {
   name: 'Product',
 
@@ -293,14 +295,13 @@ export default {
       data.append('product_price', this.form.product_price)
       data.append('product_size', this.form.product_size)
       data.append('product_status', this.form.product_status)
-      // for (var pair of data.entries()) {
-      //   console.log(pair[0] + ', ' + pair[1])
-      // }
-      let dataUpdate = { dataSet: this.form, id: this.product_id }
-      // console.log(dataUpdate)
-      this.patchProduct(dataUpdate)
+      for (var pair of data.entries()) {
+        console.log(pair[0] + ', ' + pair[1])
+      }
+      let dataUpdate = { dataSet: this.data, id: this.product_id }
+      this.setProducts(dataUpdate)
         .then(() => {
-          this.getProduct()
+          this.getProducts()
           // this.makeToast('Product Updated', 'Success', 'success')
         })
         .catch(() => {
@@ -315,8 +316,9 @@ export default {
       this.getProduct()
     },
     handleFile(event) {
-      console.log(event.target.files[0])
       this.form.product_image = event.target.files[0]
+      console.log(event.target.files[0])
+      console.log(this.form.product_image)
     },
     handleSize(size) {
       console.log(size)

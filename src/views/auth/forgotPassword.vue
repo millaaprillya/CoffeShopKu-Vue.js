@@ -20,11 +20,7 @@
           </b-row>
           <b-col class="login">
             <center class="login-text">Forgot Password</center>
-            <b-form
-              @submit.prevent="onSubmit"
-              @reset.prevent="onReset"
-              class="login-1"
-            >
+            <b-form @submit.prevent="forgotPass" class="login-1">
               <label for="fname" class="label-login">Email adress:</label><br />
               <input
                 type="email"
@@ -37,8 +33,8 @@
                 <b-col
                   ><button type="buttom" class="login-buttom">
                     Send Email
-                  </button></b-col
-                >
+                  </button>
+                </b-col>
                 <br />
               </div>
             </b-form>
@@ -55,7 +51,7 @@ import alert from '../../mixins/alert'
 import Footer from '../../components/_base/Footer'
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: 'login',
+  name: 'forgot',
   mixins: [alert],
   components: {
     Footer
@@ -63,8 +59,7 @@ export default {
   data() {
     return {
       form: {
-        user_email: '',
-        user_password: ''
+        user_email: ''
       }
     }
   },
@@ -73,8 +68,25 @@ export default {
     ...mapState({ dataName: 'name' })
   },
   methods: {
-    // mapAction & mapMutation
-    ...mapActions(['login']),
+    ...mapActions(['forgotPassword']),
+    forgotPass() {
+      this.forgotPassword(this.form)
+        .then(result => {
+          console.log(result)
+          this.makeToast(
+            `${result.data.msg}`,
+            `Congratulations, ${this.form.user_email}`,
+            'success'
+          )
+        })
+        .catch(error => {
+          this.makeToast(
+            `${error.data.msg}`,
+            `Failed send to, ${this.form.user_email}`,
+            'danger'
+          )
+        })
+    },
     onSubmit() {
       this.login(this.form)
         .then(result => {

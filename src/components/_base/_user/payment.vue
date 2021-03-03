@@ -18,36 +18,45 @@
                   </h2>
                   <div class="card-body px-lg-2 px-xl-4">
                     <div class="card__all">
-                      <div class="d-flex mb-xl-3 mb-3 align-items-center">
-                        <img alt="paymentItems" />
+                      <!-- //proser looping -->
+                      <div
+                        class="d-flex mb-xl-3 mb-3 align-items-center"
+                        v-for="(item, index) in orders"
+                        :key="index"
+                      >
+                        <img
+                          :src="'http://localhost:3000/' + item.product_image"
+                          class="rounded-circle"
+                          width="100"
+                          height="100"
+                        />
                         <div class="flex-xl-column ml-2 ml-lg-3 ml-xl-4">
-                          <p class="name_product">Hazelnut Latte</p>
-                          <p class="name_product">x 1</p>
+                          <p class="name_product">{{ item.product_name }}</p>
+                          <p class="name_qty">{{ item.order_qty }} x</p>
                           <p class="name_product">Regular</p>
                         </div>
                         <h5 class="priceTag pr-xl-2 pr-2 ml-auto ml-xl-auto">
-                          IDR 24.0
+                          Rp. {{ item.product_price * item.order_qty }}
                         </h5>
                       </div>
                     </div>
                     <hr class="mt-xl-4 mt-4" />
                     <div class="d-flex mt-xl-4 mt-4 sub_price">
                       <h5>SUBTOTAL</h5>
-                      <p class="ml-auto ml-xl-auto">IDR 120.000</p>
+                      <p class="ml-auto ml-xl-auto">{{ subtotal }}</p>
                     </div>
                     <div class="d-flex sub_price">
                       <h5>TAX & FEES</h5>
-                      <p class="ml-auto ml-xl-auto">IDR 20.000</p>
+                      <p class="ml-auto ml-xl-auto">{{ tax }}</p>
                     </div>
-                    <div class="d-flex sub_price mb-xl-5">
-                      <h5>SHIPPING</h5>
-                      <p class="ml-auto ml-xl-auto">IDR 10.000</p>
-                    </div>
+
                     <div
                       class="d-flex mt-xl-4 mt-lg-4 mt-3 pb-3 pb-lg-5 pb-xl-5 total_productPrice"
                     >
                       <h2 class="title_card">Total</h2>
-                      <h2 class="title_card ml-auto ml-xl-auto">IDR 150.000</h2>
+                      <h2 class="title_card ml-auto ml-xl-auto">
+                        {{ total }}
+                      </h2>
                     </div>
                   </div>
                 </div>
@@ -66,14 +75,16 @@
                 </div>
                 <div class="card address_card px-2 px-xl-3 pt-2 pt-xl-3">
                   <div class="card-body">
-                    <h5><strong>Delivery</strong> to Iskandar Street</h5>
-                    <hr />
-                    <h5 class="pr-xl-3">
-                      Km 5 refinery road oppsite re public road, effurun,
-                      Jakarta
+                    <h5><strong>To </strong> {{ profile.user_name }}</h5>
+                    <h5>
+                      <strong>Delivery</strong> {{ profile.user_address }}
                     </h5>
                     <hr />
-                    <h5 class="pr-xl-3">+62 81348287878</h5>
+                    <h5 class="pr-xl-3">
+                      {{ profile.user_address }}
+                    </h5>
+                    <hr />
+                    <h5 class="pr-xl-3">(62 +) {{ profile.user_phone }}</h5>
                   </div>
                 </div>
                 <h2
@@ -89,6 +100,7 @@
                         name="Payment_Method"
                         id="Payment_Method1"
                         value="option1"
+                        @click="paymentMehods('Card')"
                       />
                       <img
                         class="ml-xl-3 ml-3"
@@ -105,6 +117,7 @@
                         id="Payment_Method2"
                         value="option2"
                         checked
+                        @click="paymentMehods('Bank')"
                       />
                       <img
                         class="ml-xl-3 ml-3"
@@ -120,6 +133,7 @@
                         name="Payment_Method"
                         id="Payment_Method3"
                         value="option3"
+                        @click="paymentMehods('cash')"
                       />
                       <img
                         class="ml-xl-3 ml-3"
@@ -132,6 +146,7 @@
                 </div>
                 <button
                   class="buttom-confirm mt-xl-5 mt-4 mb-5 mb-xl-0 w-100 btn_confirm"
+                  @click="postOrder()"
                 >
                   Confirm and Pay
                 </button>
@@ -152,96 +167,84 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
 export default {
-  name: 'login',
+  name: 'payment',
   components: {
     Footer,
     Navbar
   },
   data() {
     return {
-      register: []
+      payment: '',
+      total: 0,
+      tax: 0,
+      subtotal: 0
     }
   },
   created() {
-    this.getHistory(this.user.user_id)
+    this.getHistory()
+    this.getUserProfile(this.user.user_id)
+    this.paymentSumary()
+    this.getHistoryPayment()
+    console.log(this.getHistoryPayment)
   },
   methods: {
     ...mapActions([
       'getHistory',
       'getUserProfile',
-      'logout',
-      'patchUserProfile',
-      'changePassword',
-      'patchProfilePict',
-      'deleteProfilePict'
+      'ChekoutProduct',
+      'getHistoryPayment'
     ]),
-    ...mapMutations(['patchUser']),
-    updateProfile() {
-      console.log(this.form)
-      const setData = { id: this.user.userId, data: this.profile }
-      this.patchUserProfile(setData)
-        .then(result => {
-          this.$toasted.success(result)
-        })
-        .catch(error => {
-          this.$toasted.error(error)
-        })
+    ...mapMutations(['setPayment', 'resetOrder']),
+    paymentMehods(value) {
+      this.payment = value
     },
-    mybooking() {
-      this.$router.push({
-        name: 'MyBooking'
-      })
-    },
-    patchPasword() {
-      const setData = { id: this.user.userId, ...this.form }
-      this.changePassword(setData)
-        .then(result => {
-          this.$toasted.success(result)
-        })
-        .catch(error => {
-          this.$toasted.error(error)
-        })
-    },
-    handleFile(event) {
-      if (event.target.files[0].size > 2000000) {
-        this.makeToast('Failed', `File too large`, 'danger')
-      } else {
-        console.log('file oke')
-        this.profile.profileImage = event.target.files[0]
-        const img = this.profile.profileImage
-        this.url = URL.createObjectURL(img)
-        const { profileImage } = this.profile
-        const data = new FormData()
-        data.append('profileImage', profileImage)
-        this.patchProfilePict(data)
-          .then(result => {
-            this.makeToast(
-              `Profile Image Updated`,
-              'Success update profile image',
-              'success'
-            )
-            this.getUserProfile(this.user.userId)
-            console.log(result)
-            console.log('berhasil patching')
-          })
-          .catch(error => {
-            this.makeToast('Failed', `Update Image Fail`, 'danger')
-            console.log(error)
-            console.log('error patching')
-          })
+    paymentSumary() {
+      for (let i = 0; i < this.orders.length; i++) {
+        this.subtotal += this.orders[i].order_qty * this.orders[i].product_price
       }
+      this.tax = this.subtotal * 0.1
+      this.total = this.subtotal + this.tax
+    },
+    postOrder() {
+      const setData = { userId: this.user.user_id, orders: this.orders }
+      console.log(setData)
+
+      this.ChekoutProduct(setData)
+        .then(result => {
+          alert(result)
+          this.resetOrder()
+          this.tax = 0
+          this.total = 0
+          this.subtotal = 0
+        })
+        .catch(error => {
+          alert(error)
+        })
+    },
+    totalPayment() {
+      for (let i = 0; i < this.orders.length; i++) {
+        this.subtotal +=
+          this.orders[i].product_qty * this.orders[i].product_price
+      }
+      this.tax = this.subtotal * 0.1
+      this.total = this.subtotal + this.tax
+      console.log(this.subtotal)
     }
   },
   computed: {
     ...mapGetters({
-      user: 'setUser',
-      profile: 'setProfile'
+      orders: 'getOrders',
+      profile: 'setProfile',
+      user: 'setUser'
     })
   }
 }
 </script>
 
 <style>
+.name_product {
+  font-weight: bold;
+}
 .title_card {
   font-family: Poppins;
   font-style: normal;

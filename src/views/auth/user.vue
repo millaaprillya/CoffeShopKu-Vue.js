@@ -1,10 +1,10 @@
 <template>
   <div>
     <Navbar />
-    <main class="bg__account">
-      <div class="container mt-lg-4 pt-lg-2 pt-4 pb-5 pb-lg-5">
+    <main class="bgAccount">
+      <div class="container ">
         <h2 class="title ml-lg-1 mt-lg-4 mb-3 mb-lg-4">User Profile</h2>
-        <form action="#">
+        <form @submit.prevent="updateProfile">
           <div class="card__account p-lg-5 pt-4">
             <div class="row">
               <div class="col-xl-4">
@@ -26,14 +26,51 @@
                   <button class="col btn_removePhoto mb-lg-5 mb-5">
                     Remove photo
                   </button>
-                  <button class="col btn_editPassword mb-lg-5 mb-4">
-                    Edit Password
+                  <button
+                    @click="$bvModal.show('bv-modal-example')"
+                    class="button btn_editPassword mb-lg-5 mb-4"
+                  >
+                    Change Password
                   </button>
+                  <b-modal id="bv-modal-example" hide-footer>
+                    <template #modal-title>Change Password</template>
+                    <div class="d-block">
+                      <h6>Password baru</h6>
+                      <b-form-input
+                        type="password"
+                        v-model="form2.newPassword"
+                        placeholder="Insert new password "
+                        required
+                      ></b-form-input>
+                      <br />
+                      <h6>Konfirmasi password baru</h6>
+                      <b-form-input
+                        type="password"
+                        v-model="form2.confirmPassword"
+                        placeholder="confirm password "
+                        required
+                      ></b-form-input>
+                    </div>
+                    <b-button
+                      class="mt-3"
+                      variant="outline-primary"
+                      block
+                      @click="changePass()"
+                      >Ubah password</b-button
+                    >
+                    <b-button
+                      class="mt-3"
+                      block
+                      @click="$bvModal.hide('bv-modal-example')"
+                      >Batal</b-button
+                    >
+                  </b-modal>
+
                   <div class="save_itbtn d-none d-lg-block">
                     <h2 class="sure__change mb-lg-5 px-lg-5 text-center">
                       Do you want to save the change?
                     </h2>
-                    <button class="col btn_saveChange mb-lg-3">
+                    <button type="submit" class="col btn_saveChange mb-lg-3">
                       Save Change
                     </button>
                     <button class="col btn_cancel mb-lg-5">Cancel</button>
@@ -106,7 +143,7 @@
                         >DD/MM/YY</label
                       >
                       <input
-                        type="date"
+                        type="datetime"
                         placeholder="dd-mm-yyyy"
                         class="form-control mobile_date_input"
                         id="mobile_number"
@@ -137,7 +174,7 @@
                     <div
                       class="radio_btn mt-lg-3 mt-4 ml-auto mr-auto pb-4 ml-lg-auto mr-lg-auto pb-lg-4"
                     >
-                      <div class="form-check form-check-inline mr-2 mr-lg-5">
+                      <!-- <div class="form-check form-check-inline mr-2 mr-lg-5">
                         <input
                           class="form-check-input"
                           type="radio"
@@ -167,17 +204,22 @@
                           for="inlineRadio2"
                           >Female</label
                         >
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                   <div class="save_itbtn d-block d-lg-none">
                     <h2 class="sure__change mb-4 px-4 text-center">
                       Do you want to save the change?
                     </h2>
-                    <button class="col btn_saveChange mb-3">
+                    <button
+                      class="col btn_saveChange mb-3"
+                      @click="updateProfile()"
+                    >
                       Save Change
                     </button>
-                    <button class="col btn_cancel mb-5">Cancel</button>
+                    <button class="col btn_cancel mb-5" @click="cancel()">
+                      Cancel
+                    </button>
                     <button class="col btn_logout">Log out</button>
                   </div>
                 </div>
@@ -186,30 +228,37 @@
           </div>
         </form>
       </div>
+      <br />
+      <br />
     </main>
     <Footer />
   </div>
 </template>
 
 <script>
+import alert from '../../mixins/alert'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import Footer from '../../components/_base/Footer'
 import Navbar from '../../components/_base/Navbar'
 
 export default {
   name: 'login',
+  mixins: [alert],
   components: {
     Footer,
     Navbar
   },
   data() {
     return {
-      register: []
+      register: [],
+      form2: {
+        newPassword: '',
+        confirmPassword: ''
+      }
     }
   },
   created() {
     this.getUserProfile(this.user.user_id)
-    console.log(this.user.user_id)
   },
   methods: {
     ...mapActions([
@@ -220,13 +269,14 @@ export default {
       'patchProfilePict',
       'deleteProfilePict'
     ]),
-    ...mapMutations(['patchUser']),
+    ...mapMutations(['patchUser', 'setUserProfile']),
     updateProfile() {
-      console.log(this.form)
-      const setData = { id: this.user.userId, data: this.profile }
+      const setData = { id: this.user.user_id, data: this.profile }
+      this.setUserProfile(setData)
       this.patchUserProfile(setData)
         .then(result => {
           this.$toasted.success(result)
+          this.getUserProfile(this.user.user_id)
         })
         .catch(error => {
           this.$toasted.error(error)
@@ -242,35 +292,20 @@ export default {
           this.$toasted.error(error)
         })
     },
-    handleFile(event) {
-      if (event.target.files[0].size > 2000000) {
-        this.makeToast('Failed', `File too large`, 'danger')
-      } else {
-        console.log('file oke')
-        this.profile.profileImage = event.target.files[0]
-        const img = this.profile.profileImage
-        this.url = URL.createObjectURL(img)
-        const { profileImage } = this.profile
-        const data = new FormData()
-        data.append('profileImage', profileImage)
-        this.patchProfilePict(data)
-          .then(result => {
-            this.makeToast(
-              `Profile Image Updated`,
-              'Success update profile image',
-              'success'
-            )
-            this.getUserProfile(this.user.userId)
-            console.log(result)
-            console.log('berhasil patching')
-          })
-          .catch(error => {
-            this.makeToast('Failed', `Update Image Fail`, 'danger')
-            console.log(error)
-            console.log('error patching')
-          })
-      }
+    cancel() {
+      this.$router.push({
+        name: '/'
+      })
     }
+  },
+  changePass() {
+    this.changePasswords(this.form)
+      .then(result => {
+        this.successAlert(result.data.msg)
+      })
+      .catch(err => {
+        this.errorAlert(err.data.msg)
+      })
   },
   computed: {
     ...mapGetters({
@@ -345,7 +380,7 @@ span.supply__Product {
 }
 
 /* Main Style */
-main.bg__account {
+main.bgAccount {
   background-image: url('../../assets/bg/bg-user-edit.png');
   background-size: cover;
   background-position: 0% 35%;
@@ -353,12 +388,12 @@ main.bg__account {
 
 /* Media Query Main Background */
 @media (max-width: 1024px) {
-  main.bg__account {
+  main.bgAccount {
     background-position: 60% 70%;
   }
 }
 @media (max-width: 576px) {
-  main.bg__account {
+  main.bgAccount {
     background-position: 0% 40%;
   }
 }
@@ -633,9 +668,6 @@ div.radio_btn label.form-check-label.active {
   font-weight: 700;
   color: #6a4029;
 }
-
-/* Media Query Right Account */
-
 @media (max-width: 576px) {
   a.btn_edit {
     position: absolute;

@@ -20,17 +20,20 @@
             <b-container class="bg-home">
               <div>
                 <ul class="header-menu ">
-                  <li class="nav-item" @click="categoryFood()">
-                    <a> favorite Product</a>
+                  <li class="nav-item" @click="categoryFood('')">
+                    <a> All Product</a>
                   </li>
                   <li class="nav-item" @click="categoryFood('Coffee')">
                     <a>coffee</a>
                   </li>
-                  <li class="nav-item" @click="categoryFood('Non Coffee')">
+                  <li class="nav-item" @click="categoryFood('NonCoffe')">
                     <a>Non Coffee</a>
                   </li>
                   <li class="nav-item" @click="categoryFood('Foods')">
                     <a>Foods</a>
+                  </li>
+                  <li class="nav-item" @click="categoryFood('Desert')">
+                    <a>Desert</a>
                   </li>
                   <li>
                     <b-dropdown
@@ -88,7 +91,6 @@
 </template>
 
 <script>
-// [1] step pertama import komponen
 import Navbar from '../components/_base/Navbar'
 import Footer from '../components/_base/Footer'
 import Voucher from '../components/_base/_admin/voucher'
@@ -97,8 +99,7 @@ import Addproduct from '../components/_base/_admin/Addproduct'
 import axios from 'axios'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
-  name: 'Product',
-  // [2] step 2 mendaftarkan komponen yang sudah kita import
+  name: 'Home',
   components: {
     Navbar,
     Footer,
@@ -108,15 +109,12 @@ export default {
   },
   computed: {
     ...mapGetters({
+      user: 'setUser',
       products: 'getDataProduct',
       page: 'getPageProduct',
       limit: 'getLimitProduct',
       rows: 'getTotalRowsProduct'
-    }),
-    // rows() {
-    //   return this.totalRows
-    // },
-    ...mapGetters({ user: 'setUser' })
+    })
   },
   data() {
     return {
@@ -137,16 +135,15 @@ export default {
     }
   },
   created() {
-    // this.getProducts()
+    this.getProducts()
   },
   methods: {
-    ...mapActions(['getProducts', 'getProductsCategory']),
+    ...mapActions(['getProducts', 'getProductsCategory', 'getVoucher']),
     ...mapMutations([
       'changePage',
       'changeSort',
       'changeCategory',
-      'searchProducts',
-      'getVoucher'
+      'searchProducts'
     ]),
     deleteProduct(item) {
       axios
@@ -167,8 +164,6 @@ export default {
     },
     handlePageChange(numberPage) {
       this.changePage(numberPage)
-      // console.log(numberPage)
-      // this.page = numberPage
       this.getProducts()
     },
     productAbout(data) {
@@ -202,7 +197,6 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
-
 .centered {
   text-align: center;
 }
