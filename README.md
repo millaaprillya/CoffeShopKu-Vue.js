@@ -1,6 +1,7 @@
 <h1 align='center'>Vue JS - CoffeeShopku</h1>
   <p align="center">
     <a href="https://CoffeShopku.netlify.app/">View Demo</a>
+  .
       <a href="https://github.com/millaaprillya/CoffeShopKu-Vue.js/issues">Report Bug</a>
     ·
     <a href="https://github.com/millaaprillya/CoffeShopKu-Vue.js/pulls">Request Feature</a>
