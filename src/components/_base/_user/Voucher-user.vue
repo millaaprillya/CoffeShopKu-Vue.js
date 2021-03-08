@@ -34,7 +34,6 @@
 
 <script>
 import axios from 'axios'
-// import AddVoucher from '../../_base/_admin/_add_voucher'
 
 export default {
   components: {
@@ -92,21 +91,12 @@ export default {
           console.log(error.response)
         })
     },
-    //  pr
+
     deleteVoucher(voucher_id) {
       console.log(voucher_id)
     },
-    setProduct(data) {
-      console.log(data)
 
-      this.form = data
-      this.voucher_id = data.voucher_id
-    },
-    pacthProduct() {
-      console.log(this.form)
-    },
     handlePageChange(numberPage) {
-      console.log(numberPage)
       this.page = numberPage
       this.getProduct()
     },

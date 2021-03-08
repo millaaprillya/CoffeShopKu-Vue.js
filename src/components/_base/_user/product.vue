@@ -26,12 +26,36 @@
             <b-col>
               <p class="card-text">Rp.{{ item.product_price }}</p>
             </b-col>
-            <b-container class="bv-example-row mb-3">
+            <b-container
+              class="bv-example-row container-buttom "
+              v-if="user.user_role === 1"
+            >
+              <b-row cols="2">
+                <b-col>
+                  <button class="button button5" @click="productAbout(item)">
+                    <img src="../../../assets/property/Vector.png" alt="" />
+                  </button>
+                </b-col>
+                <b-col>
+                  <button
+                    class="button button5 "
+                    @click="deleteProduct(item.product_id)"
+                  >
+                    <img
+                      class="btn-delete"
+                      src="../../../assets/property/delete.png"
+                      alt=""
+                    />
+                  </button>
+                </b-col>
+              </b-row>
+            </b-container>
+            <b-container class="bv-example-row " v-if="user.user_role === 2">
               <b-row cols="2">
                 <b-col>
                   <button
                     class="option__delivCatagory"
-                    @click="productAbout(item)"
+                    @click="productOrder(item)"
                   >
                     <p>ADD CART</p>
                   </button>
@@ -46,22 +70,17 @@
 </template>
 
 <script>
-// import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Product',
-
   computed: {
-    // rows() {
-    //   return this.totalRows
-    // },
     ...mapGetters({
-      products: 'getDataProduct'
+      products: 'getDataProduct',
+      user: 'setUser'
     })
   },
   data() {
     return {
-      // product: [],
       form: {
         category_id: '',
         product_name: '',
@@ -82,11 +101,14 @@ export default {
   methods: {
     ...mapActions(['getProducts', 'postProduct', 'productDeleted']),
     deleteProduct(item) {
-      // this.productDeleted(item)
-      console.log(item)
-      this.$router.push({
-        name: 'Home'
-      })
+      this.productDeleted(item)
+        .then(result => {
+          alert(result)
+          this.getProducts()
+        })
+        .cacth(error => {
+          alert(error)
+        })
     },
     setProduct(data) {
       console.log(data)
@@ -102,11 +124,19 @@ export default {
       this.page = numberPage
       this.getProduct()
     },
-    productAbout(data) {
+    productOrder(data) {
       console.log(data)
       this.form = data
       this.$router.push({
         name: 'orderDetail',
+        params: { id: data.product_id }
+      })
+    },
+    productAbout(data) {
+      console.log(data)
+      this.form = data
+      this.$router.push({
+        name: 'aboutProduct',
         params: { id: data.product_id }
       })
     },
@@ -124,6 +154,32 @@ export default {
 </script>
 
 <style scoped>
+.button5 img {
+  width: 15px;
+}
+.container-buttom {
+  margin-top: 5%;
+}
+.button5 {
+  border-radius: 50%;
+  margin: 0 2px;
+}
+.button {
+  padding: 0 !important ;
+  background-color: #6a4029; /* Green */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  margin: 4px 2px;
+  cursor: pointer; */
+}
 button.option__delivCatagory.active:hover {
   color: black;
   background: #6a4029;
@@ -158,8 +214,8 @@ button.option__delivCatagory {
   border-right: 5px;
 }
 .card-product {
-  width: 160px;
-  height: 300.5px;
+  width: 170px;
+  height: 370px;
   margin: 4%;
   padding: 2%;
   background: #ffffff;
@@ -253,10 +309,10 @@ button.option__delivCatagory {
   text-decoration: none;
   display: inline-block;
   font-size: 10px;
-  margin: 4px 2px;
+  margin: 5px;
   cursor: pointer;
-  width: 90px;
-  height: 10px;
+  width: 50px;
+  height: 50px;
 }
 @media only screen and (max-width: 1094px) {
   .voucher-container {

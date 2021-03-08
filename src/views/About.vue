@@ -28,38 +28,18 @@
                 <br />
                 <label for="fname" class="contact-1">Category food :</label
                 ><br />
-                <center>
-                  <p class="contact">
-                    {{ form.category_id }}
-                  </p>
-                </center>
-                <b-dropdown
-                  size="lg"
-                  split
-                  text="Choose Category here"
-                  class="m-2"
-                  variant="outline-secondary"
-                >
-                  <b-dropdown-item-button @click="handleCategory(1)"
-                    >Coffe (1)</b-dropdown-item-button
-                  >
-                  <b-dropdown-item-button @click="handleCategory(2)"
-                    >Non Coffe (2)</b-dropdown-item-button
-                  >
-                  <b-dropdown-item-button @click="handleCategory(3)"
-                    >Food (3)</b-dropdown-item-button
-                  >
-                </b-dropdown>
-
+                <template>
+                  <div>
+                    <b-form-select
+                      v-model="form.category_id"
+                      :options="options"
+                    ></b-form-select>
+                  </div>
+                </template>
                 <p class="title-doyouwanna ">
                   Status:
                 </p>
-                <center>
-                  <p class="contact">
-                    {{ form.product_status }}
-                  </p>
-                </center>
-                <b-dropdown
+                <!-- <b-dropdown
                   size="lg"
                   split
                   text="Product Status"
@@ -72,60 +52,64 @@
                   <b-dropdown-item-button @click="handleStatus(0)"
                     >none Active
                   </b-dropdown-item-button>
-                </b-dropdown>
+                </b-dropdown> -->
+                <template>
+                  <div>
+                    <b-form-select
+                      v-model="form.product_status"
+                      :options="options_status"
+                    ></b-form-select>
+                  </div>
+                </template>
                 <p class="title-doyouwanna ">
                   Input stock :
                 </p>
-                <center>
-                  <p class="contact">
-                    {{ form.product_stok }}
-                  </p>
-                </center>
-                <b-dropdown
-                  size="lg"
-                  split
-                  text="Input stock"
-                  class="m-2"
-                  variant="outline-secondary"
-                >
-                  <b-dropdown-item-button @click="handleStok(50)"
-                    >50</b-dropdown-item-button
-                  >
-                  <b-dropdown-item-button @click="handleStok(30)"
-                    >30</b-dropdown-item-button
-                  >
-                  <b-dropdown-item-button @click="handleStok(40)"
-                    >40</b-dropdown-item-button
-                  >
-                </b-dropdown>
-              </div>
-            </div></b-col
-          >
+                <template>
+                  <div>
+                    <b-form-select
+                      v-model="form.product_stok"
+                      :options="optionsStok"
+                    ></b-form-select>
+                  </div>
+                </template>
+              </div></div
+          ></b-col>
           <b-col>
             <b-container class="card-contact">
               <p></p>
               <form>
-                {{ form.product_image }}
                 <label for="fname" class="contact-1">Name :</label><br />
-                <input
-                  type="text"
-                  class="contact"
-                  v-model="form.product_name"
-                /><br />
-                <label for="fname" class="contact-1">Price:</label><br />
-                <input
-                  type="number"
-                  class="contact"
-                  v-model="form.product_price"
-                /><br /><br />
 
+                <template>
+                  <div>
+                    <b-form-input
+                      v-model="form.product_name"
+                      placeholder="Insert Product name"
+                    ></b-form-input>
+                  </div>
+                </template>
+                <label for="fname" class="contact-1">Price:</label><br />
+
+                <template>
+                  <div>
+                    <b-form-input
+                      v-model="form.product_price"
+                      placeholder="Rp : xxxxx"
+                      type="number"
+                    ></b-form-input>
+                  </div>
+                </template>
+                <br />
                 <p class="contact">Details</p>
                 <label for="fname" class="contact-1">Description :</label><br />
-                <input
-                  type="text"
-                  class="contact"
-                  v-model="form.product_list"
-                /><br />
+                <template>
+                  <div>
+                    <b-form-input
+                      v-model="form.product_list"
+                      placeholder="Product Details"
+                    ></b-form-input>
+                  </div>
+                </template>
                 <label for="lname" class="contact-1">Input Product Size :</label
                 ><br />
                 <p>Click size you want to use for this product</p>
@@ -220,7 +204,7 @@ export default {
   },
   data() {
     return {
-      products: {},
+      // products: {},
       form: {
         category_id: '',
         product_name: '',
@@ -237,7 +221,25 @@ export default {
       currentPage: '1',
       totalRows: 'null',
       limit: 8,
-      page: 1
+      page: 1,
+      options: [
+        { value: '', text: 'Choose Category Product' },
+        { value: 1, text: 'Coffee' },
+        { value: 2, text: 'NonCoffe' },
+        { value: 3, text: 'Foods' },
+        { value: 5, text: 'Desert' }
+      ],
+      options_status: [
+        { value: '', text: 'Product Status' },
+        { value: 1, text: 'active' },
+        { value: 2, text: 'None' }
+      ],
+      optionsStok: [
+        { value: '', text: 'Product Status' },
+        { value: 30, text: 'Stok Product Ready 10 - 30 ' },
+        { value: 50, text: 'Stok Product Ready 10 - 50 ' },
+        { value: 100, text: 'Stock 100' }
+      ]
     }
   },
   created() {
@@ -245,10 +247,7 @@ export default {
     this.getproductByid(this.$route.params.id)
   },
   methods: {
-    ...mapActions(['getProducts', 'patchProduct']),
-    deleteProduct(product_id) {
-      console.log(product_id)
-    },
+    ...mapActions(['patchProduct']),
     getproductByid(product_id) {
       axios
         .get(`http://localhost:3000/product/${product_id}`)
@@ -274,17 +273,11 @@ export default {
             product_size,
             product_status
           }
-          const data = {
-            product_id: this.product_id,
-            form: data
-          }
-          // this.patchProduct(data)
         })
         .catch(error => {
           console.log(error.response)
         })
     },
-
     setProduct() {
       const data = new FormData()
       data.append('category_id', this.form.category_id)
@@ -298,20 +291,19 @@ export default {
       for (var pair of data.entries()) {
         console.log(pair[0] + ', ' + pair[1])
       }
-      let dataUpdate = { dataSet: this.data, id: this.product_id }
-      this.setProducts(dataUpdate)
-        .then(() => {
+      let dataUpdate = { id: this.product_id, dataSet: data }
+      this.patchProduct(dataUpdate)
+        .then(result => {
+          alert(result)
+          this.$router.push('/')
           this.getProducts()
-          // this.makeToast('Product Updated', 'Success', 'success')
         })
-        .catch(() => {
-          // this.makeToast('Failed update product', 'Error', 'danger')
+        .catch(error => {
+          alert(error)
         })
-      this.$bvModal.hide('add-product-modal')
     },
 
     handlePageChange(numberPage) {
-      console.log(numberPage)
       this.page = numberPage
       this.getProduct()
     },
@@ -321,25 +313,18 @@ export default {
       console.log(this.form.product_image)
     },
     handleSize(size) {
-      console.log(size)
       this.form.product_size = size
     },
     handleStok(stock) {
       this.form.product_stok = stock
-      console.log(stock)
-    },
-    handlegr() {
-      // this.form.product_size
     },
     handleStatus(status) {
       this.form.product_status = status
-      console.log(status)
     },
     chooseFiles() {
       document.getElementById('fileUpdate').click()
     },
     handleCategory(category) {
-      console.log(category)
       this.form.category_id = category
     }
   }

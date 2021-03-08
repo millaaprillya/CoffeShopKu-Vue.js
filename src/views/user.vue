@@ -3,9 +3,16 @@
     <div class="centered">
       <Navbar />
       <b-container fluid>
-        <b-row clas s="sidebar">
-          <b-col xl="4" lg="4" md="12" sm="12" class="voucher-container">
-            <b-container>
+        <b-row class="sidebar">
+          <!-- <b-col
+            xl="4"
+            lg="4"
+            md="12"
+            sm="12"
+            class="voucher-container"
+            v-if="user.user_role === 2"
+          > -->
+          <!-- <b-container>
               <b-card-group class="border-class">
                 <center>
                   <ul>
@@ -17,9 +24,19 @@
                   </ul>
                 </center>
               </b-card-group>
-            </b-container>
-          </b-col>
-          <b-col xl="8" lg="8" md="12" sm="12">
+            </b-container> -->
+          <!-- <b-container>
+              <b-card-group class="border-class" v-if="user.user_role === 1">
+                <center>
+                  <ul>
+                    <center class="info-promo">Add Voucher</center>
+                    <Voucher2 />
+                  </ul>
+                </center>
+              </b-card-group>
+            </b-container> -->
+          <!-- </b-col> -->
+          <b-col>
             <b-container class="bg-home">
               <div>
                 <ul class="header-menu">
@@ -64,7 +81,14 @@
               <b-container class="bv-example-row">
                 <Card />
               </b-container>
-
+              <div v-if="user.user_role === 1">
+                <b-button v-b-modal.modal-xl squared variant="warning"
+                  >ADD PRODUCT</b-button
+                >
+                <b-modal id="modal-xl" size="xl" title="ADD DATA PRODUCT"
+                  ><Addproduct
+                /></b-modal>
+              </div>
               <b-pagination
                 v-model="currentPage"
                 :total-rows="rows"
@@ -85,8 +109,10 @@
 // [1] step pertama import komponen
 import Navbar from '../components/_base/Navbar'
 import Footer from '../components/_base/Footer'
-import Voucher from '../components/_base/_user/Voucher-user'
+// import Voucher from '../components/_base/_user/Voucher-user'
 import Card from '../components/_base/_user/product'
+import Addproduct from '../components/_base/_admin/Addproduct'
+// import Voucher2 from '../components/_base/_admin/voucher'
 
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
@@ -94,8 +120,10 @@ export default {
   components: {
     Navbar,
     Footer,
-    Voucher,
-    Card
+    // Voucher,
+    Card,
+    Addproduct
+    // Voucher2
   },
   computed: {
     ...mapGetters({
@@ -159,12 +187,17 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
 
+.sidebar {
+  display: flex;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+}
 .centered {
   text-align: center;
 }
 .voucher-container {
   box-sizing: border-box;
-  border-right: 5px;
 }
 .card-product {
   width: 160px;

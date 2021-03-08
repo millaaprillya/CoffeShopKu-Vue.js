@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import Product from '../views/Product.vue'
 import aboutProduct from '../views/About.vue'
 import payment from '../components/_base/_user/payment.vue'
@@ -15,7 +14,6 @@ import dashboard from '../views/dasboard/dashboard.vue'
 import income from '../views/admin/income.vue'
 import forgotPassword from '../views/auth/forgotPassword.vue'
 import changePassword from '../views/auth/changePassword'
-// import payment from '../views/admin/payment'
 import addProduct from '../components/_base/_admin/Addproduct.vue'
 import store from '../store/index'
 
@@ -31,12 +29,7 @@ const routes = [
     name: 'income',
     component: income
   },
-  {
-    path: '/Home',
-    name: 'Home',
-    component: Home,
-    meta: { requiresAuth: true }
-  },
+
   {
     path: '/product',
     name: 'Product',

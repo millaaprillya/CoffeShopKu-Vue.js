@@ -250,10 +250,21 @@ export default {
   },
   data() {
     return {
+      profile: '',
       register: [],
       form2: {
         newPassword: '',
         confirmPassword: ''
+      },
+      form: {
+        user_img: '',
+        user_email: '',
+        user_phone: '',
+        user_address: '',
+        user_name: '',
+        user_birth: '',
+        user_lastname: '',
+        user_gender: ''
       }
     }
   },
@@ -271,9 +282,22 @@ export default {
     ]),
     ...mapMutations(['patchUser', 'setUserProfile']),
     updateProfile() {
-      const setData = { id: this.user.user_id, data: this.profile }
-      this.setUserProfile(setData)
-      this.patchUserProfile(setData)
+      const data = new FormData()
+      data.append('user_img', this.profile.user_img)
+      data.append('user_email', this.profile.user_email)
+      data.append('user_phone', this.profile.user_phone)
+      data.append('user_address', this.profile.user_address)
+      data.append('user_name', this.profile.user_name)
+      data.append('user_birth', this.profile.user_birth)
+      data.append('user_lastname', this.profile.user_lastname)
+      data.append('user_gender', this.profile.user_gender)
+      for (var pair of data.entries()) {
+        console.log(pair[0] + ', ' + pair[1])
+      }
+      const setData = { id: this.user.user_id, dataUser: this.data }
+      console
+        .log(setData)
+        // this.patchUserProfile(setData)
         .then(result => {
           this.$toasted.success(result)
           this.getUserProfile(this.user.user_id)
@@ -283,8 +307,10 @@ export default {
         })
     },
     patchPasword() {
-      const setData = { id: this.user.userId, ...this.form }
-      this.changePassword(setData)
+      console
+        .log(this.form2)
+        // const setData = { id: this.user.userId, ...this.form2 }
+        // this.changePassword(setData)
         .then(result => {
           this.$toasted.success(result)
         })

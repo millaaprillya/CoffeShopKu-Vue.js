@@ -57,25 +57,6 @@
                 <p class="title-doyouwanna ">
                   Input stock :
                 </p>
-
-                <!-- class="m-2" -->
-                <!-- <b-dropdown
-                  size="lg"
-                  split
-                  text="Input stock"
-                  class="m-2"
-                  variant="outline-secondary"
-                >
-                  <b-dropdown-item-button @click="handleStok(50)"
-                    >50</b-dropdown-item-button
-                  >
-                  <b-dropdown-item-button @click="handleStok(30)"
-                    >30</b-dropdown-item-button
-                  >
-                  <b-dropdown-item-button @click="handleStok(40)"
-                    >40</b-dropdown-item-button
-                  >
-                </b-dropdown> -->
                 <template>
                   <div>
                     <b-form-select
@@ -91,7 +72,7 @@
               <p></p>
               <form>
                 <label for="fname" class="contact-1">Name :</label><br />
-                <!-- <input type="text" v-model="form.product_name" /><br /> -->
+
                 <template>
                   <div>
                     <b-form-input
@@ -101,7 +82,7 @@
                   </div>
                 </template>
                 <label for="fname" class="contact-1">Price:</label><br />
-                <!-- <input type="number" v-model="form.product_price" /><br /><br /> -->
+
                 <template>
                   <div>
                     <b-form-input
@@ -257,7 +238,7 @@ export default {
       this.addProduct(data)
         .then(result => {
           alert(result)
-          this.$router.push('/Home')
+          this.$router.push('/')
         })
         .catch(error => {
           alert(error)

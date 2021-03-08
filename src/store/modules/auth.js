@@ -54,7 +54,7 @@ export default {
       localStorage.removeItem('cart')
       localStorage.removeItem('vuex')
       context.commit('delUser')
-      router.push('/')
+      router.push('/login')
     },
     interceptorRequest(context) {
       console.log('interceptor request Works !')

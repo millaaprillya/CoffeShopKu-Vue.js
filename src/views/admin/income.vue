@@ -2,7 +2,6 @@
   <div>
     <Navbar />
     <div class="bg-income">
-      <h2 class="title">See how your store progress so far</h2>
       <template>
         <b-container class="bv-example-row">
           <b-row>
@@ -25,21 +24,19 @@
             <b-col sm="3"
               ><div>
                 <div class="card__editAccount">
-                  <br />
-                  <h4>Today Income</h4>
                   <center>
-                    <h1>{{ income.inComeToday }}</h1>
+                    <h4>Today Income</h4>
+                    <h2>RP. {{ income.inComeToday }}</h2>
                   </center>
                 </div>
                 <div class="card__editAccount">
-                  <h3>Income total</h3>
-                  <br />
                   <center>
-                    <h2>{{ income.totalAll }}</h2>
+                    <h3>Income total</h3>
+                    <h2>RP. {{ income.totalAll }}</h2>
                   </center>
                 </div>
                 <div>
-                  <button class="aside-btn2">
+                  <button class="aside-btn2" @click="clickReport()">
                     <p>Share Report</p>
                   </button>
                 </div>
@@ -130,11 +127,14 @@ export default {
   },
   methods: {
     ...mapActions(['getIncome']),
-    ...mapMutations(['setIncome'])
+    ...mapMutations(['setIncome']),
+    clickReport() {
+      window.print()
+    }
   },
   computed: {
     ...mapGetters({
-      income: 'setIncome_',
+      income: 'Income',
       profile: 'setProfile'
     })
   }
@@ -187,14 +187,17 @@ export default {
   color: white;
 }
 .aside-btn2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 170%;
-  margin-top: 25px;
   border-radius: 20px;
   font-family: 'Poppins', sans-serif;
-  font-size: 17px;
+  text-align: center;
+  font-size: 23px;
   font-weight: bold;
   text-align: center;
-  padding: 20px;
+  padding: 25px;
   background-color: #6a4029;
   color: white;
 }

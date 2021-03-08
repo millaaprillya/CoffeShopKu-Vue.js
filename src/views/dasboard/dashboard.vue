@@ -3,33 +3,39 @@
     <div class="centered">
       <Navbar />
       <div>
-        <b-jumbotron class="bg-jb"
-          ><p class="title-dashboard">
-            Start Your Day with Coffee and Good Meals
-          </p>
-          <p class="title-dashboard-2">
-            We provide high quality beans, good taste, and healthy meals made by
-            love just for you. Start your day with us for a bigger smile!
-          </p>
+        <b-jumbotron class="bg-jb">
+          <div>
+            <h3 class="title-dashboard">
+              Start Your Day with Coffee and Good Meals
+            </h3>
+            <p class="title-dashboard-2">
+              We provide high quality beans, good taste, and healthy meals made
+              by love just for you. Start your day with us for a bigger smile!
+            </p>
+          </div>
         </b-jumbotron>
       </div>
       <div></div>
       <b-container class="bv-example-row">
         <b-row>
           <b-col
-            ><img src="../../assets/property/Capture.png" alt="" />
-            <p>90+</p>
-            <p>Staff</p></b-col
+            ><img class="img" src="../../assets/property/Capture.png" alt="" />
+            <p class="number-ds">90+</p>
+            <p class="txt-ds">Staff</p></b-col
           >
           <b-col
-            ><img src="../../assets/property/Capture.2.png" alt="" />
-            <p>30+</p>
-            <p>Store</p></b-col
+            ><img
+              class="img"
+              src="../../assets/property/Capture.2.png"
+              alt=""
+            />
+            <p class="number-ds">30+</p>
+            <p class="txt-ds">Store</p></b-col
           >
           <b-col
-            ><img src="../../assets/property/Capture3.png" alt="" />
-            <p>800+</p>
-            <p>Constumers</p></b-col
+            ><img class="img" src="../../assets/property/Capture3.png" alt="" />
+            <p class="number-ds">800+</p>
+            <p class="txt-ds">Constumers</p></b-col
           >
         </b-row>
       </b-container>
@@ -37,16 +43,6 @@
         <b-row>
           <b-col><img src="../../assets/property/dah.jpg" alt=""/></b-col>
           <b-col><img src="../../assets/property/bg-2.png" alt="" /> </b-col>
-        </b-row>
-      </b-jumbotron>
-      <b-jumbotron class="bg-jb-2">
-        <b-row>
-          <b-col><img src="../../assets/property/map.jpg" alt="" /> </b-col>
-        </b-row>
-      </b-jumbotron>
-      <b-jumbotron class="bg-jb-2">
-        <b-row>
-          <b-col><img src="../../assets/property/yaps.jpg" alt="" /> </b-col>
         </b-row>
       </b-jumbotron>
       <Footer />
@@ -68,7 +64,23 @@ export default {
 </script>
 
 <style scoped>
+.img {
+  height: 50%;
+}
+.txt-ds {
+  font-size: 20px;
+  font-weight: bold;
+}
+.number-ds {
+  font-size: 35px;
+  font-weight: bold;
+  padding: 0 !important;
+  margin: 0 !important;
+}
 .bg-jb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: url('../../assets/bg/bg-dashboard.png');
   background-position: center;
   background-repeat: no-repeat;
@@ -78,10 +90,9 @@ export default {
   background: white;
 }
 .title-dashboard {
+  text-align: center;
   width: 570px;
   height: 140px;
-  left: 150px;
-  top: 207px;
 
   font-family: Rubik;
   font-style: normal;
@@ -91,10 +102,9 @@ export default {
   color: #ffffff;
 }
 .title-dashboard-2 {
+  text-align: center;
   width: 555px;
   height: 90px;
-  left: 150px;
-  top: 366.77px;
 
   font-family: Rubik;
   font-style: normal;

@@ -19,6 +19,9 @@ export default {
       state.products = payload.data
       state.totalRows = payload.pagination.totalData
     },
+    setProductId(state, payload) {
+      state.form = payload.data
+    },
     changePage(state, payload) {
       state.page = payload
     },
@@ -48,8 +51,21 @@ export default {
           })
       })
     },
+    getProductByid(context, payload) {
+      console.log(payload)
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`${process.env.VUE_APP_PORT}/product/${payload}`)
+          .then(response => {
+            context.commit('setProduct', response.data.data[0])
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
     getProductsCategory(context) {
-      // console.log(context.state.category)
       return new Promise((resolve, reject) => {
         axios
           .get(
@@ -69,7 +85,7 @@ export default {
         axios
           .post(`${process.env.VUE_APP_PORT}/product/`, payload)
           .then(response => {
-            resolve(response.data.data)
+            resolve(response.data.data.msg)
           })
           .catch(error => {
             reject(error.response.data.msg)
@@ -85,8 +101,8 @@ export default {
             payload.dataSet
           )
           .then(response => {
-            context.commit('setProduct', response.dataSet)
-            resolve(response.dataSet)
+            context.commit('setProduct', response.data.data[0])
+            resolve(response.data.data.msg)
           })
           .catch(error => {
             console.log(error)

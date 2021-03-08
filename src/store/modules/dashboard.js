@@ -2,22 +2,13 @@ import axios from 'axios'
 
 export default {
   state: {
-    income: {},
-    orders: [],
-    form: {
-      order_id: '',
-      history_id: '',
-      product_id: '',
-      product_price: '',
-      order_qty: '',
-      order_price: '',
-      order_total: ''
-    }
+    income: '',
+    orders: []
   },
   mutations: {
     setIncome(state, payload) {
-      state.income = payload.data.data
-      console.log(state)
+      state.income = payload
+      console.log(state.income)
     }
   },
   actions: {
@@ -26,8 +17,8 @@ export default {
         axios
           .get(`${process.env.VUE_APP_PORT}/dashboard/income`)
           .then(response => {
-            console.log(response)
-            context.commit('setIncome', response.data.data[0])
+            console.log(response.data.data)
+            context.commit('setIncome', response.data.data)
             resolve(response)
           })
           .catch(error => {
@@ -37,7 +28,7 @@ export default {
     }
   },
   getters: {
-    setIncome_(state) {
+    Income(state) {
       return state.income
     }
   }

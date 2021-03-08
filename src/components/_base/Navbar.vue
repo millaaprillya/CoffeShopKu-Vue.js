@@ -8,7 +8,7 @@
             >Coffee Shop</span
           >
         </a>
-
+        <!-- <p>{{ user }}</p> -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto ml-lg-auto pt-lg-2 ml-5">
             <li class="nav-item">
@@ -20,15 +20,23 @@
               <router-link class="pr-lg-4 nav-link" to="/">Product</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="pr-lg-4 nav-link" to="/payment"
+              <router-link
+                class="pr-lg-4 nav-link"
+                v-if="user.user_role === 1"
+                to="/income"
+                >Dashboard</router-link
+              >
+              <router-link class="pr-lg-4 nav-link" to="/payment" v-else
                 >Your Cart</router-link
               >
             </li>
-            <li
-              class="nav-item active pr-lg-4 nav-link"
-              @click="historyPage(profile)"
-            >
-              History
+            <li class="nav-item">
+              <router-link
+                class="pr-lg-4 nav-link"
+                :to="{ name: 'history', params: { id: profile.user_id } }"
+                v-if="user.user_role === 2"
+                >History</router-link
+              >
             </li>
 
             <li>

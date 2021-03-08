@@ -10,9 +10,10 @@
               <h1>Let’s see what you have bought!</h1>
               <p>Select item to delete</p>
             </div>
-            <div class="row">
+
+            <div class="row ">
               <div
-                class="col-sm-6"
+                class="col-sm-3 text-center card-1"
                 v-for="(items, index) in history"
                 :key="index"
               >
@@ -47,12 +48,17 @@
                                   v-for="(item, i) in items.orders"
                                   :key="i"
                                 >
-                                  <div class="card-item row">
+                                  <div class="card-item row" mb="5">
                                     <div class="card-image col-3">
                                       <img
-                                        src="'http://localhost:3000/' + item.product_image"
+                                        :src="
+                                          'http://localhost:3000/' +
+                                            item.product_image
+                                        "
                                         alt=""
                                         class="rounded-circle"
+                                        width="50"
+                                        height="50"
                                       />
                                       <!-- {{ item.product_image }} -->
                                     </div>
@@ -64,7 +70,7 @@
                                       </p>
                                       <h6>Qty : {{ item.order_qty }} x</h6>
                                     </div>
-                                    <div class="card-text col-1">
+                                    <div class="card-text col-1" mb="5">
                                       <label>Total </label>
                                       <strong
                                         >{{
@@ -149,6 +155,12 @@ export default {
 </script>
 
 <style scoped>
+.card-1 {
+  display: flex;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+}
 .aside-card {
   background-color: white;
   border-radius: 20px;
@@ -218,10 +230,10 @@ export default {
 }
 .card {
   border-radius: 20px;
-  margin-left: 200px;
+  margin: 5%;
   margin-top: 5%;
-  margin-bottom: 5%;
-  width: 50%;
+  /* margin-bottom: 5%; */
+  width: 85%;
 }
 .card-item {
   height: 100%;
