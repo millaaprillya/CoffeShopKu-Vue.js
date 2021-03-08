@@ -18,11 +18,11 @@ The harder it is for your hungry customers to find the ordering buttons on your 
 
 1. <a href="https://nodejs.org/en/download/">Node Js</a>
 2. Node_modules `npm install` or `yarn install`
-3. Terbang.in Backend API [`here`](https://github.com/andrawanerlang1/TERBANGIN-BackEnd.git)
+3. CoffeShopku Backend API [`here`](https://github.com/millaaprillya/CoffeShopKu-Backend)
 
 ## Getting Started
 
-1. Download this Project or you can type `git clone https://github.com/andrawanerlang1/TERBANGIN-FrontEnd.git`
+1. Download this Project or you can type `https://github.com/millaaprillya/CoffeShopKu-Vue.js`
 2. Open app's directory in CMD or Terminal
 3. Type `npm install` or `yarn install`
 4. Add .env file at root folder project
