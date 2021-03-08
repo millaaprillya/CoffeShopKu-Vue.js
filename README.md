@@ -1,6 +1,9 @@
 <h1 align='center'>Vue JS - CofeeShopku</h1>
   <p align="center">
     <a href="https://CoffeShopku.netlify.app/">View Demo</a>
+      <a href="https://github.com/millaaprillya/CoffeShopKu-Vue.js/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/millaaprillya/CoffeShopKu-Vue.js/pulls">Request Feature</a>
   </p>
 
 ![Image Banner](https://github.com/millaaprillya/CoffeShopKu-Vue.js/blob/main/src/assets/property/readme.jpg)
@@ -38,3 +41,6 @@ VUE_APP_PORT = localhost:3000
 - [Axios](https://www.npmjs.com/package/axios)
 - [Vuex](https://vuex.vuejs.org/)
 
+## License - untuk project individu
+
+© [Milla Aprillya Indriyani](https://github.com/millaaprillya)
