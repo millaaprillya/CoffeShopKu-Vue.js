@@ -3,7 +3,7 @@
     <a href="https://CoffeShopku.netlify.app/">View Demo</a>
   </p>
 
-![Image Banner](https://github.com/millaaprillya/CoffeShopKu-Vue.js/blob/main/src/assets/bg/Capture.PNG)
+![Image Banner](https://github.com/millaaprillya/CoffeShopKu-Vue.js/blob/main/src/assets/property/readme.jpg)
 
 ## About The Project
 
