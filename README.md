@@ -42,6 +42,6 @@ VUE_APP_PORT = localhost:3000
 - [Axios](https://www.npmjs.com/package/axios)
 - [Vuex](https://vuex.vuejs.org/)
 
-## License - untuk project individu
+## License 
 
 © [Milla Aprillya Indriyani](https://github.com/millaaprillya)
